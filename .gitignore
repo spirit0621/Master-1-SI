@@ -35,5 +35,9 @@ __pycache__/
 *.log
 logs/techcorp_calls.jsonl
 
+# Personal docs
+**/DOCS PERSO/
+DOCS PERSO/
+
 # IDE configuration
 .agents/
