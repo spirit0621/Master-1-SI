@@ -1,0 +1,56 @@
+[
+  {
+    "id": 111,
+    "title": "DNS intermittence",
+    "hostname": "srv-dns-01 ",
+    "priority": "CRITIQUE",
+    "status": "open",
+    "created_at": "2026-09-15T11:18:00",
+    "description": "Latence anormale et pertes de paquets intermittentes constatées sur la résolution."
+  },
+  {
+    "id": 112,
+    "title": "Incident incomplet",
+    "hostname": "",
+    "priority": "",
+    "status": "OPEN",
+    "created_at": "15/09/2026 12:00:00",
+    "description": "Signalement sans machine renseignée."
+  },
+  {
+    "id": 113,
+    "title": "Erreur récurrente de connexion DB",
+    "hostname": "SRV-DB-01",
+    "priority": "CRITICAL",
+    "status": "open",
+    "created_at": "2026-09-15T10:05:00",
+    "description": "Échec de connexion PostgreSQL depuis SRV-APP-01, erreurs d'authentification techapp."
+  },
+  {
+    "id": 114,
+    "title": "Certificat SSL bientôt expiré",
+    "hostname": "SRV-WEB-01",
+    "priority": "LOW",
+    "status": "closed",
+    "created_at": "2026-09-10T08:30:00",
+    "description": "Renouvellement effectué sur Nginx."
+  },
+  {
+    "id": 115,
+    "title": "Dégradation performances API",
+    "hostname": "SRV-APP-01",
+    "priority": "high",
+    "status": "open",
+    "created_at": "2026-09-15T10:15:00",
+    "description": "Temps de réponse anormalement élevés sur /tickets/open."
+  },
+  {
+    "id": 116,
+    "title": "Incident sur hôte fantôme",
+    "hostname": "SRV-UNKNOWN-99",
+    "priority": "MEDIUM",
+    "status": "open",
+    "created_at": "2026-09-14T14:20:00",
+    "description": "Machine inconnue dans l'inventaire CMDB."
+  }
+]

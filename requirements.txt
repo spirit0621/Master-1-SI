@@ -1,0 +1,31 @@
+# --- Framework Web & API (FastAPI) ---
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+pydantic>=2.6.0
+pydantic-settings>=2.2.0
+
+# --- Serveur & Protocole MCP ---
+mcp>=1.0.0
+fastmcp>=0.1.0
+
+# --- Base de données PostgreSQL ---
+psycopg2-binary>=2.9.9
+sqlalchemy>=2.0.28
+
+# --- Requêtes HTTP & Clients LLM ---
+httpx>=0.27.0
+requests>=2.31.0
+ollama>=0.3.0
+
+# --- Traitement de Données & ETL ---
+pandas>=2.2.0
+
+# --- Interface Utilisateur ---
+streamlit>=1.32.0
+
+# --- Utilitaires & Sécurité ---
+python-dotenv>=1.0.1
+
+# --- Tests & Qualité ---
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
