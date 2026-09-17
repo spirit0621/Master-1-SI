@@ -286,18 +286,3 @@ La suite de tests valide :
 2. Le nettoyage algorithmique des données et la table d'audit ([tests/test_etl.py](<file:///c:/Users/alves/Desktop/Lycée,%20bts%20,%20formation,%20master/CFA-insta/Master%201%20SI/TP/TPFINALE/tests/test_etl.py>)).
 3. La conformité des routes et modèles Pydantic FastAPI ([tests/test_api.py](<file:///c:/Users/alves/Desktop/Lycée,%20bts%20,%20formation,%20master/CFA-insta/Master%201%20SI/TP/TPFINALE/tests/test_api.py>)).
 4. L'exécution unitaire des Tools MCP et sondes réseau TCP ([tests/test_mcp.py](<file:///c:/Users/alves/Desktop/Lycée,%20bts%20,%20formation,%20master/CFA-insta/Master%201%20SI/TP/TPFINALE/tests/test_mcp.py>)).
-
----
-
-## 🛡️ Grille de Conformité aux Exigences d'Examen (Sections 15.1 & 15.2)
-
-- **Risque de Pénalités (15.1) :** 🟢 **0%** (LLM strictement connecté aux Tools, données brutes intactes, aucun secret dans Git, 5 schémas d'architecture Mermaid et Draw.io, zéro shell libre, socket TCP réelle sans hallucination, répartition d'équipe claire).
-- **Bonus Débloqués (15.2) :** 🟢 **100%** (Suite pytest complète, Dockerisation `compose.yml`, transport MCP documenté, Dashboard Streamlit 3 onglets, matrice des rôles RBAC appliquée, multi-tool calling avec synthèse croisée).
-
----
-
-## 👥 Auteurs & Soutenance
-
-- **Formation :** Master 1 Systèmes d'Information & Logiciel / Réseau — CFA INSTA
-- **Date de Soutenance :** Vendredi 18 Septembre 2026
-- **Évaluation :** Démonstration pratique chronométrée (8 minutes) + Questions techniques du jury (5 minutes).
