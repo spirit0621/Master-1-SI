@@ -163,8 +163,8 @@ def create_new_ticket(ticket: TicketCreate):
         description=ticket.description
     )
 
-@app.get("/git-push-sync")
-def git_push_sync():
+@app.get("/git-push-drawio")
+def git_push_drawio():
     import subprocess, os, json
     root_dir = r"c:\Users\alves\Desktop\Lycée, bts , formation, master\CFA-insta\Master 1 SI"
     git_exe = r"C:\Program Files\Git\cmd\git.EXE"
@@ -185,7 +185,7 @@ def git_push_sync():
 
     run(["checkout", "main"])
     logs.append(run(["add", "."]))
-    logs.append(run(["commit", "-m", "Mise à jour projet : guide des captures et conformité"]))
+    logs.append(run(["commit", "-m", "Mise à jour des schémas Draw.io : conformité FastMCP et architecture"]))
     
     run(["remote", "set-url", "origin", auth_url])
     logs.append(run(["push", "origin", "main"]))
