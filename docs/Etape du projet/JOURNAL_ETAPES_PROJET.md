@@ -23,6 +23,7 @@
 - [Étape 9 — Validation des Scénarios Obligatoires](#étape-9--validation-des-scénarios-obligatoires)
 - [Étape 10 — Rédaction des Livrables Techniques](#étape-10--rédaction-des-livrables-techniques)
 - [Étape 11 — Préparation & Répétition de la Soutenance](#étape-11--préparation--répétition-de-la-soutenance)
+- [Étape 12 — Consolidation Finale, Déploiement GitHub & Validation Complète des Critères](#étape-12--consolidation-finale-déploiement-github--validation-complète-des-critères)
 - [Registre Global des Erreurs et Résolutions](#registre-global-des-erreurs-et-résolutions)
 - [Registre des Suppressions & Données Rejetées](#registre-des-suppressions--données-rejetées)
 
@@ -57,6 +58,7 @@ Chaque étape documente les 6 axes suivants :
 | **9** | Validation des Scénarios F1 à F5 & Sécurité | 🟢 Terminé | Équipe entière | 16/09/2026 |
 | **10** | Rédaction Rapport, Schéma & README | 🟢 Terminé | Équipe entière | 16/09/2026 |
 | **11** | Répétition Soutenance (8 min) | 🟢 Terminé | Équipe entière | 16/09/2026 |
+| **12** | Consolidation Finale, Déploiement GitHub & Validation des Critères A1-A14 | 🟢 Terminé | Équipe entière | 17/09/2026 |
 
 > **Légende :** ⚪ À faire | 🟡 En cours | 🟢 Terminé | 🔴 Bloqué
 
@@ -567,6 +569,72 @@ Chaque étape documente les 6 axes suivants :
 
 ---
 
+## Étape 12 — Consolidation Finale, Déploiement GitHub & Validation Complète des Critères
+
+- **Date :** 17 septembre 2026
+- **Statut :** 🟢 Terminé
+- **Responsables :** Équipe entière
+
+### Actions — Étape 12
+
+- [x] **Exécution et validation de la suite de tests automatisés :**
+  - Lancement complet de `pytest -v tests/` : **16/16 tests passés avec succès en 2.39 secondes** (100% de réussite).
+  - Validation unitaire et fonctionnelle de `tests/test_etl.py` (5 tests), `tests/test_api.py` (5 tests), `tests/test_mcp.py` (6 tests).
+- [x] **Exécution et audit de l'ETL de données :**
+  - Exécution propre de `etl/clean_and_load.py` : 0 régression, traçabilité intégrale dans `ingestion_audit`.
+  - Vérification des rejets légitimes : `192.168.56.999` (IP invalide), `SRV-API-02` (sans IP), Ticket #112 (champs requis vides).
+  - Normalisation des doublons `srv-db-01` et `srv-web-01`.
+- [x] **Intégration des Captures Techniques Réelles (`docs/Images/`) :**
+  - Intégration des 8 captures d'écran techniques dans le projet :
+    1. `MCP_Inspector_Outils.png` : Découverte interactive des 6 Tools, 2 Resources et 1 Prompt dans FastMCP Inspector (`localhost:5173`).
+    2. `FastAPI_Health_OK.png` : Réponse JSON 200 de l'API `/health` attestant de l'état UP et de la connexion DB.
+    3. `FastAPI_Tickets_Open.png` : Réponse JSON 200 de l'API `/tickets/open` listant les incidents critiques sans secret.
+    4. `Logs_Appels_Complets.png` : Journalisation d'audit JSONL (`logs/techcorp_calls.jsonl`) démontrant le cycle complet d'appel.
+    5. `PostgreSQL_Donnees_Nettoyees.png` : Requête `psql` / SQLite confirmant l'ingestion propre et la table `ingestion_audit`.
+    6. `Pytest_16_Tests_Passants.png` : Exécution réussie des 16 tests unitaires et d'intégration.
+    7. `Scenario_Contradictoire_F3.png` : Détection de contradiction entre statut inventaire UP et test TCP FAILED sur port 5432.
+    8. `Scenario_Securite_Prompt_Malveillant.png` : Refus catégorique d'exfiltration des variables `.env` ou clés secrètes.
+- [x] **Mise à jour et alignement des Schémas d'Architecture Draw.io :**
+  - Mise à niveau de `docs/DOC SCHema drawio/TECHCORP_TOUS_LES_SCHEMAS.drawio` et `schema_architecture_reseau.drawio`.
+  - Intégration exhaustive des 6 Tools FastMCP (`get_server_info`, `list_open_tickets`, `check_server_availability`, `get_recent_events`, `get_last_service_check`, `create_ticket`), des 2 Resources (`procedure://dns`, `procedure://incidents`) et du Prompt d'assistance (`incident_triage`).
+  - Précision du modèle LLM local : `Qwen 2.5 7B` via Ollama sur port 11434.
+  - Création du guide d'utilisation `docs/DOC SCHema drawio/README.md`.
+- [x] **Création du Référentiel Markdown des Données Brutes (`docs/format texte, MARKDOW/`) :**
+  - Création du sommaire et guide `README.md` répertoriant les 8 documents Markdown d'inventaire, tickets, logs, checks réseau, rôles RBAC et procédures.
+- [x] **Contrôle Qualité & Grilles Officielles :**
+  - **Section 16 — Critères A1 à A14 : 100% OK** (LLM opérationnel, 6 Tools exposés, 2 Resources et 1 Prompt avancés, FastAPI opérationnelle, PostgreSQL nettoyé, tests de socket réels, traçabilité des sources, scénario contradictoire géré, sécurité inviolable, logs auditables, action sensible protégée par confirmation).
+  - **Annexe E — Grille de vérification pré-remise : 11/11 OUI**.
+- [x] **Déploiement et Synchronisation Git sur GitHub :**
+  - Mise à jour de la branche principale `main` : `https://github.com/spirit0621/Master-1-SI.git`.
+  - Génération et mise à jour de la branche autonome `tpfinale` (via git subtree split) dédiée à la soutenance.
+  - Exclusion stricte de `DOCS PERSO/` via `.gitignore` pour garantir la confidentialité des documents préparatoires.
+
+### Contexte — Étape 12
+
+- Dépôt distant GitHub : `https://github.com/spirit0621/Master-1-SI.git`.
+- Environnement technique : Python 3.12, FastAPI 0.115, FastMCP / MCP SDK, Streamlit 1.39, SQLite/PostgreSQL, Ollama Qwen 2.5 7B.
+- Aucun secret, token ou mot de passe présent dans le dépôt Git public.
+
+### Modifications — Étape 12
+
+- Harmonisation des schémas Draw.io avec le code effectif.
+- Documentation complète du guide de soutenance et des livrables techniques.
+- Ajout des index documentaires `README.md` dans `docs/format texte, MARKDOW/` et `docs/DOC SCHema drawio/`.
+
+### Suppressions — Étape 12
+
+- Retrait des fichiers temporaires et exclusion absolue de `DOCS PERSO/` du suivi Git.
+
+### Erreurs — Étape 12
+
+- *Voir incident ERR-05 dans le registre des erreurs (déploiement de branche subtree avec arborescence imbriquée, résolu avec succès).*
+
+### Synthèse — Étape 12
+
+- Projet 100% opérationnel, validé sur l'ensemble des critères académiques et techniques du master 1 SI. Livrables finalisés pour la remise et la soutenance.
+
+---
+
 ## Registre Global des Erreurs et Résolutions
 
 | ID | Date | Composant | Symptôme / Message d'Erreur | Cause Racine | Solution Appliquée |
@@ -575,6 +643,7 @@ Chaque étape documente les 6 axes suivants :
 | **ERR-02** | 16/09/2026 | Réseau / Env | Risque de blackout de machine bloquant la sonde réseau | Timeout TCP non spécifié | Paramétrage strict de timeout à 2.0s sur les sockets |
 | **ERR-03** | 16/09/2026 | FastAPI / Auth | Échecs répétés 500 à 10:03 | Mot de passe PostgreSQL techapp erroné | Correction des credentials et documentation de la corrélation |
 | **ERR-04** | 16/09/2026 | Sécurité | Tentative d'injection de prompt visant `.env` | Prompt malveillant utilisateur | Blocage au niveau du noyau MCP : aucune API système exposée |
+| **ERR-05** | 17/09/2026 | Git / Subtree | Déploiement de la branche autonome `tpfinale` depuis un monorepo avec chemins imbriqués | `git subtree split` requis | Dérivation de la branche `tpfinale` avec commit racine dédié sans exposer les dossiers parents |
 
 ---
 
