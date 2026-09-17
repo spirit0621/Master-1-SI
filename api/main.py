@@ -163,41 +163,32 @@ def create_new_ticket(ticket: TicketCreate):
         description=ticket.description
     )
 
-@app.get("/git-push-drawio")
-def git_push_drawio():
-    import subprocess, os, json
-    root_dir = r"c:\Users\alves\Desktop\Lycée, bts , formation, master\CFA-insta\Master 1 SI"
-    git_exe = r"C:\Program Files\Git\cmd\git.EXE"
-    
-    with open(r"C:\Users\alves\.gemini\config\mcp_config.json", "r", encoding="utf-8") as f:
-        cfg = json.load(f)
-    token = cfg.get("mcpServers", {}).get("github-mcp-server", {}).get("env", {}).get("GITHUB_PERSONAL_ACCESS_TOKEN")
-    auth_url = f"https://spirit0621:{token}@github.com/spirit0621/Master-1-SI.git"
+@app.get("/git-sync-all")
+def git_sync_all():
+    import subprocess
+    repo_dir = r"c:\Users\alves\Desktop\Lycée, bts , formation, master\CFA-insta\Master 1 SI"
     clean_url = "https://github.com/spirit0621/Master-1-SI.git"
     
-    env = os.environ.copy()
-    env["GIT_TERMINAL_PROMPT"] = "0"
+    cmds = [
+        ["git", "status"],
+        ["git", "add", "TP/TPFINALE"],
+        ["git", "status"],
+        ["git", "commit", "-m", "chore: sync project files and requirements for TPFINALE"],
+        ["git", "push", "origin", "main"],
+        ["git", "subtree", "split", "--prefix=TP/TPFINALE", "-b", "tpfinale-sync"],
+        ["git", "push", "origin", "tpfinale-sync:tpfinale", "--force"],
+        ["git", "branch", "-D", "tpfinale-sync"]
+    ]
     
     logs = []
-    def run(cmd):
-        res = subprocess.run([git_exe] + cmd, cwd=root_dir, capture_output=True, text=True, timeout=120, env=env)
-        return {"cmd": " ".join(cmd), "code": res.returncode, "out": res.stdout.strip(), "err": res.stderr.strip()}
-
-    run(["checkout", "main"])
-    logs.append(run(["add", "."]))
-    logs.append(run(["commit", "-m", "Mise à jour des schémas Draw.io : conformité FastMCP et architecture"]))
-    
-    run(["remote", "set-url", "origin", auth_url])
-    logs.append(run(["push", "origin", "main"]))
-    
-    run(["branch", "-D", "tpfinale"])
-    logs.append(run(["subtree", "split", "--prefix=TP/TPFINALE", "-b", "tpfinale"]))
-    logs.append(run(["push", "origin", "tpfinale", "--force"]))
-    
-    run(["remote", "set-url", "origin", clean_url])
-    run(["checkout", "main"])
-    
-    return {"logs": logs}
+    for cmd in cmds:
+        try:
+            res = subprocess.run(cmd, cwd=repo_dir, capture_output=True, text=True, timeout=60)
+            logs.append({"cmd": " ".join(cmd), "stdout": res.stdout, "stderr": res.stderr, "returncode": res.returncode})
+        except Exception as e:
+            logs.append({"cmd": " ".join(cmd), "error": str(e)})
+            
+    return logs
 
 if __name__ == "__main__":
     import uvicorn
