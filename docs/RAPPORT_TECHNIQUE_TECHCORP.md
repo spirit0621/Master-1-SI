@@ -690,12 +690,6 @@ La table `roles` définit rigoureusement 4 profils d'exploitation :
 
 ## 10. Niveaux de Réalisation et Réponses aux 10 Questions d'Architecture
 
-### 10.1 Validation du Socle Obligatoire, du Niveau Avancé et des Bonus
-
-- **Socle Obligatoire :** 🟢 **100% Validé** (ETL reproductible, 5 Tools MCP, FastAPI, LLM local avec Tool Calling, sondes réelles TCP, scénarios F1 à F3, traçabilité JSONL).
-- **Niveau Avancé :** 🟢 **100% Validé** (2 Resources MCP, Prompt MCP de cadrage, `create_ticket` avec confirmation humaine, scénarios F4 et F5, résistance au prompt malveillant, table des rôles RBAC).
-- **Bonus :** 🟢 **100% Validé** (Suite automatisée pytest, Dockerisation propre avec `compose.yml`, Dashboard Streamlit avec métriques ETL et logs en direct, transport réseau documenté, multi-tool orchestration).
-
 ### 10.2 Réponses Formelles aux 10 Questions d'Architecture (Section 13.2)
 
 1. **Où tourne le LLM ?** Sur le poste client / machine locale (`POSTE-ETU`), exécuté par le runtime **Ollama** avec le modèle **Qwen 4B** sur le port local `11434`.
@@ -710,45 +704,3 @@ La table `roles` définit rigoureusement 4 profils d'exploitation :
 10. **Où sont stockés les secrets et les logs ?**
     - Secrets : Variables d'environnement isolées dans `.env` exclu de Git.
     - Logs : Journal JSONL structuré dans `logs/mcp_audit.jsonl` et table d'audit dans PostgreSQL `ingestion_audit`.
-
----
-
-## 11. Déroulé Chronométré de la Démonstration (8 Minutes)
-
-|         Timing         | Séquence de Démonstration                 | Actions Réalisées à l'Écran                                                                                                                         |
-| :--------------------: | :------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **0:00 – 1:00** | **Contexte et Architecture**          | Présentation du schéma réseau par zones et de l'arborescence du projet.                                                                              |
-| **1:00 – 2:30** | **Données & Audit ETL**              | Démonstration du script`clean_and_load.py` et affichage de l'onglet *Qualité Données* de Streamlit prouvant le rejet de l'IP `192.168.56.999`. |
-| **2:30 – 4:00** | **Scénario F1 & API FastAPI**        | Clic sur le bouton*Scénario F1* : démonstration de l'appel HTTP vers `/tickets/open` et affichage des tickets critiques.                          |
-| **4:00 – 5:30** | **Scénario F2 (PostgreSQL direct)**  | Clic sur*Scénario F2* : consultation de `SRV-DB-01` directement dans PostgreSQL.                                                                   |
-| **5:30 – 7:00** | **Scénario F3 (Contradiction Clé)** | Clic sur*Scénario F3* : mise en évidence en direct de la contradiction entre l'inventaire `UP` et la sonde TCP `SERVICE_DOWN`.                  |
-| **7:00 – 8:00** | **Observabilité & Sécurité**       | Déroulement de l'expander de logs (UUID, durée en ms), preuve de non-divulgation des secrets sur le prompt d'attaque.                                 |
-
----
-
-## 12. Grille d'Évaluation Finale : Immunité aux Pénalités et Bonus
-
-### 12.1 Section 15.1 : Audit Zéro Pénalité
-
-| Risque de Pénalité Officiel                        | Traitement Technique dans le Projet TECHCORP                                                                   | Risque Résiduel |
-| :--------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- | :--------------: |
-| **LLM connecté uniquement sans Tools**        | Chaque requête passe par un appel d'outil MCP réel. L'IA ne formule rien sans faits probants injectés.      |  🟢**0%**  |
-| **Données brutes corrigées manuellement**    | Données brutes intactes dans`etl/data_raw/`. Nettoyage 100% automatisé et tracé dans `ingestion_audit`. |  🟢**0%**  |
-| **Mot de passe ou secret versionné dans Git** | `.gitignore` exclut `.env`, `*.db`, et `logs/`. Seul `.env.example` avec placeholders est fourni.    |  🟢**0%**  |
-| **Absence de schéma d’architecture**         | Deux diagrammes Mermaid et schémas Draw.io complets intégrés dans le rapport et le README.                  |  🟢**0%**  |
-| **Tool de shell libre sans contrôle**         | Aucun outil shell (`bash`, `sh`, `cmd`) exposé. Le Tool d'écriture impose `confirm=True`.            |  🟢**0%**  |
-| **Réponse IA qui invente des résultats**     | Sonde socket TCP réelle en direct. Règle absolue de détection des contradictions formelles.                 |  🟢**0%**  |
-| **Un seul étudiant capable d'expliquer**      | Découpage en 4 responsabilités équilibrées avec validation croisée documentée.                           |  🟢**0%**  |
-
-### 12.2 Section 15.2 : Justification des Bonus Obtenus
-
-1. **Tests automatisés pertinents :** Suite complète `pytest` dans `tests/` validant les 6 requêtes SQL métier de la section 4.2, les endpoints FastAPI, les règles de nettoyage ETL et les outils FastMCP.
-2. **Dockerisation propre d'une partie de l'architecture :** Fichier `compose.yml` orchestrant PostgreSQL 16 (`srv-db-01`), Nginx (`srv-web-01`) et le conteneur Ollama (`techcorp-ollama`).
-3. **MCP avec transport réseau documenté :** Architecture réseau SSE/HTTP documentée sur le subnet `192.168.56.0/24` avec client résilient et timeouts configurés.
-4. **Dashboard de supervision et métriques :** Application Streamlit avec 3 onglets complets (Assistant IA, Qualité Données ETL, et Journaux d'Audit MCP avec filtres et durées d'exécution).
-5. **Gestion de rôle réellement appliquée aux Tools :** Table `roles` et matrice RBAC chargée en base contrôlant les permissions d'exécution et de validation humaine.
-6. **Gestion de plusieurs appels de Tools avec synthèse finale :** Orchestration multi-outils dans les scénarios F3 et F4 croisant inventaire, sonde TCP et logs récents en une réponse consolidée.
-
----
-
-> **Conclusion :** Le projet TECHCORP SI satisfait à 100% des exigences du socle obligatoire, couvre l'ensemble des éléments de niveau avancé et décroche la totalité des bonus prévus par le barème d'examen.
