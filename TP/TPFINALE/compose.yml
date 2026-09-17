@@ -1,0 +1,69 @@
+services:
+  # ============================================================================
+  # SRV-DB-01 : Base de données relationnelle PostgreSQL
+  # ============================================================================
+  srv-db-01:
+    image: postgres:16-alpine
+    container_name: srv-db-01
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: techcorp
+      POSTGRES_USER: techapp
+      POSTGRES_PASSWORD: techapp_password_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U techapp -d techcorp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      techcorp_net:
+        ipv4_address: 192.168.56.20
+
+  # ============================================================================
+  # SRV-WEB-01 : Serveur cible pour tests réels de connectivité (Nginx HTTP / 80)
+  # ============================================================================
+  srv-web-01:
+    image: nginx:alpine
+    container_name: srv-web-01
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    networks:
+      techcorp_net:
+        ipv4_address: 192.168.56.30
+
+  # ============================================================================
+  # Ollama : Runtime LLM local optionnel (si non installé sur l'hôte Windows)
+  # Si Ollama tourne déjà sur votre Windows sur le port 11434, ce conteneur est facultatif.
+  # ============================================================================
+  ollama:
+    image: ollama/ollama:latest
+    container_name: techcorp-ollama
+    restart: unless-stopped
+    ports:
+      - "11435:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      techcorp_net:
+        ipv4_address: 192.168.56.40
+
+networks:
+  techcorp_net:
+    name: techcorp_network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.56.0/24
+          gateway: 192.168.56.1
+
+volumes:
+  pgdata:
+    name: techcorp_pgdata
+  ollama_data:
+    name: techcorp_ollama_data

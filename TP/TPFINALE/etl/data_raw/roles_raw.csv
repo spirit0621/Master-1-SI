@@ -1,0 +1,5 @@
+role_name,description,allowed_tools,can_confirm_action
+support_n1,Équipe Support Niveau 1,"get_server_info,list_open_tickets,get_recent_events",false
+ops_system,Équipe Exploitation Système,"get_server_info,list_open_tickets,get_recent_events,check_server_availability,get_last_service_check",false
+lead_ops,Responsable Exploitation / Astreinte,"get_server_info,list_open_tickets,get_recent_events,check_server_availability,get_last_service_check,create_ticket",true
+admin_si,Administrateur Global,"*",true

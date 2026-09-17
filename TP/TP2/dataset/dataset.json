@@ -1,0 +1,242 @@
+[
+  {
+    "instruction": "Explique la différence fondamentale entre les méthodes HTTP GET et POST dans une API REST.",
+    "response": "La méthode GET est conçue pour récupérer (lire) une ressource sans modifier l'état du serveur. Elle doit être idempotente et sûre (safe) : l'exécuter plusieurs fois produit le même résultat sans effet de bord. Les paramètres sont transmis dans l'URL (query strings). À l'inverse, POST est utilisé pour créer une nouvelle ressource ou déclencher un traitement sur le serveur. Elle n'est ni idempotente ni sûre : deux requêtes POST identiques créeront généralement deux ressources distinctes. Les données sont transmises dans le corps (body) de la requête, typiquement en JSON."
+  },
+  {
+    "instruction": "Qu'est-ce qu'une API RESTful et quels sont ses principes clés ?",
+    "response": "Une API RESTful respecte les principes de l'architecture REST (Representational State Transfer) théorisée par Roy Fielding : 1. Architecture Client-Serveur séparant l'interface utilisateur de la gestion des données. 2. Apatridie (Statelessness) : chaque requête contient toutes les informations nécessaires à son traitement, le serveur ne conserve aucune session client. 3. Mise en cache (Cacheable) : les réponses doivent explicitement indiquer si elles peuvent être mises en cache. 4. Interface uniforme : utilisation d'URIs pour identifier les ressources, manipulation des ressources par représentations (JSON/XML) et utilisation standard des verbes HTTP (GET, POST, PUT, DELETE). 5. Système en couches."
+  },
+  {
+    "instruction": "Quelle est la différence entre PUT et PATCH en HTTP ?",
+    "response": "PUT est destiné au remplacement intégral d'une ressource existante. Si certains champs ne sont pas fournis dans le corps de la requête PUT, ils sont généralement écrasés ou réinitialisés à leur valeur par défaut. PUT est idempotent. PATCH, quant à lui, sert à appliquer une modification partielle. Seuls les champs explicitement spécifiés dans le payload JSON sont mis à jour, les autres champs demeurant inchangés. PATCH n'est pas obligatoirement idempotent, bien qu'il le soit le plus souvent en pratique."
+  },
+  {
+    "instruction": "Pourquoi utilise-t-on Pydantic avec FastAPI ?",
+    "response": "Pydantic est la bibliothèque de parsing et de validation de données au cœur de FastAPI. En s'appuyant sur les annotations de type standard de Python (Type Hints), Pydantic convertit automatiquement les données brutes (JSON, Query params, Headers) en types Python natifs typés, valide la conformité des données par rapport au schéma défini (longueur, format, regex, enums) et génère automatiquement la documentation interactive OpenAPI (Swagger / ReDoc)."
+  },
+  {
+    "instruction": "À quoi correspond le code de statut HTTP 422 Unprocessable Entity dans FastAPI ?",
+    "response": "Le code HTTP 422 Unprocessable Entity est renvoyé automatiquement par FastAPI lorsqu'une requête est syntaxiquement correcte (le JSON est bien formé) mais que son contenu sémantique ne respecte pas le schéma Pydantic attendu. Cela se produit en cas de champ obligatoire manquant, de mauvais type de données (ex: chaîne de caractères au lieu d'un entier), ou de contrainte de validation personnalisée non satisfaite."
+  },
+  {
+    "instruction": "Quelle est la différence entre async def et def classique pour définir une route dans FastAPI ?",
+    "response": "`async def` définit une coroutine asynchrone exécutée directement sur la boucle d'événements (event loop) asyncio d'Uvicorn. Elle est optimale pour les opérations non bloquantes d'entrée/sortie (I/O) avec le mot-clé `await` (appels HTTP avec httpx, requêtes BDD avec un driver asynchrone). Si vous définissez une route avec `def` classique, FastAPI l'exécute automatiquement dans un thread pool distinct (via AnyIO) afin d'éviter de bloquer la boucle principale lors d'opérations synchrones lentes (fichiers disques, bibliothèques bloquantes)."
+  },
+  {
+    "instruction": "Qu'est-ce que le protocole MCP (Model Context Protocol) ?",
+    "response": "Le Model Context Protocol (MCP) est un standard ouvert introduit par Anthropic qui permet aux modèles d'IA (LLMs) de se connecter de manière standardisée et sécurisée à des sources de données externes et des outils (outils locaux, bases de données, APIs). Un serveur MCP expose des ressources (données en lecture), des outils (actions exécutables) et des prompts prédéfinis via un transport standardisé (stdio en local ou SSE/HTTP sur le réseau)."
+  },
+  {
+    "instruction": "Qu'est-ce qu'un middleware dans FastAPI et quel est son rôle ?",
+    "response": "Un middleware est une fonction qui s'interpose sur le cycle de vie de chaque requête HTTP avant qu'elle n'atteigne le routeur, ainsi que sur la réponse avant qu'elle ne soit renvoyée au client. On l'utilise couramment pour la gestion du CORS (Cross-Origin Resource Sharing), la journalisation (logging) des requêtes, le calcul du temps de traitement, la compression GZip, ou la vérification globale de jetons d'authentification."
+  },
+  {
+    "instruction": "Quelle est la différence entre un environnement virtuel Python et un conteneur Docker ?",
+    "response": "Un environnement virtuel Python (venv) isole uniquement les packages Python et leurs versions au niveau de l'interpréteur de la machine hôte. Il dépend entièrement de l'OS et des bibliothèques C système installées sur la machine. Un conteneur Docker isole la totalité de l'application en embarquant le système de fichiers utilisateur, les dépendances système (glibc, paquets apt), la version exacte de Python et les fichiers du projet, garantissant une reproductibilité absolue quel que soit l'hôte d'exécution."
+  },
+  {
+    "instruction": "Pourquoi utilise-t-on Uvicorn avec FastAPI plutôt que le serveur de développement par défaut de Flask ?",
+    "response": "FastAPI est un framework ASGI (Asynchronous Server Gateway Interface), tandis que les anciens serveurs Flask reposaient sur WSGI (synchrone). Uvicorn est une implémentation ultra-performante d'un serveur web ASGI basé sur uvloop (moteur écrit en C remplaçant l'event loop asyncio) et httptools. Il permet de traiter des dizaines de milliers de requêtes concurrentes de manière asynchrone."
+  },
+  {
+    "instruction": "Comment fonctionne l'injection de dépendances (Depends) dans FastAPI ?",
+    "response": "Le système d'injection de dépendances (`Depends`) de FastAPI permet de déclarer des composants réutilisables dont les routes ont besoin. FastAPI se charge d'instancier la dépendance, de résoudre la chaîne de sous-dépendances éventuelle, de fournir l'objet à la fonction de route et de gérer la fermeture des ressources (par exemple, fermer une session de base de données via un `yield`)."
+  },
+  {
+    "instruction": "Quelle est l'utilité des codes HTTP de la famille 2xx, 3xx, 4xx et 5xx ?",
+    "response": "- 2xx (Succès) : la requête a été reçue, comprise et traitée avec succès (ex: 200 OK, 201 Created, 204 No Content).\n- 3xx (Redirection) : des actions supplémentaires sont nécessaires pour satisfaire la requête (ex: 301 Moved Permanently, 304 Not Modified).\n- 4xx (Erreur client) : la requête contient une erreur attribuable à l'émetteur (ex: 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 422 Unprocessable Entity).\n- 5xx (Erreur serveur) : le serveur a échoué à traiter une requête valide (ex: 500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable)."
+  },
+  {
+    "instruction": "Qu'est-ce que l'idempotence en architecture d'API ?",
+    "response": "Une opération est dite idempotente si le fait de l'exécuter plusieurs fois consécutives avec les mêmes paramètres produit exactement le même état sur le serveur qu'une exécution unique. En HTTP : GET, HEAD, PUT et DELETE sont spécifiés comme idempotents. POST n'est pas idempotent."
+  },
+  {
+    "instruction": "À quoi sert le fichier Modelfile avec Ollama ?",
+    "response": "Le Modelfile est le fichier de configuration déclaratif d'Ollama, analogue à un Dockerfile. Il définit le modèle de base (FROM), le prompt système (SYSTEM), les paramètres d'échantillonnage et de contexte (PARAMETER temperature, top_p, num_ctx), d'éventuels poids additionnels (ADAPTER) et des messages d'exemples (MESSAGE)."
+  },
+  {
+    "instruction": "Quelle est la différence fondamentale entre le Fine-Tuning LoRA et le RAG ?",
+    "response": "Le Fine-Tuning (LoRA) modifie les poids du modèle pour lui apprendre un style, un ton, une méthode de raisonnement ou un format syntaxique récurrent. Il ne garantit pas la mémorisation exacte de faits et s'avère coûteux à réentraîner. Le RAG (Retrieval-Augmented Generation) ne modifie aucun poids : il recherche dynamiquement des passages documentaires pertinents dans une base vectorielle et les injecte dans le prompt du modèle. Le RAG est indispensable pour des informations factuelles précises, privées et qui évoluent fréquemment."
+  },
+  {
+    "instruction": "Comment créer un modèle Pydantic avec un champ optionnel et une valeur par défaut dans FastAPI ?",
+    "response": "Pour créer un modèle avec un champ optionnel en Python moderne (3.10+) avec Pydantic v2 :\n\n```python\nfrom pydantic import BaseModel, Field\n\nclass TicketCreate(BaseModel):\n    title: str = Field(..., min_length=3, max_length=100)\n    description: str | None = None\n    priority: str = Field(default=\"P3-MEDIUM\")\n```\nLe symbole `| None = None` indique que la valeur est facultative et initialise le champ à `None` si non renseigné."
+  },
+  {
+    "instruction": "Donne la procédure pour créer un endpoint POST /items dans FastAPI avec validation Pydantic et code de retour 201.",
+    "response": "Voici la démarche pas à pas :\n\n1. Définir le schéma Pydantic d'entrée.\n2. Utiliser le décorateur `@app.post` avec l'argument `status_code=status.HTTP_201_CREATED`.\n3. Récupérer le payload typé en paramètre de la fonction.\n\nExemple de code :\n```python\nfrom fastapi import FastAPI, status\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass Item(BaseModel):\n    name: str\n    price: float\n\n@app.post(\"/items\", status_code=status.HTTP_201_CREATED)\nasync def create_item(item: Item):\n    # Traitement métier ou sauvegarde en BDD\n    return {\"status\": \"success\", \"data\": item}\n```"
+  },
+  {
+    "instruction": "Quelle est la procédure pour configurer le middleware CORS dans FastAPI pour autoriser http://localhost:3000 ?",
+    "response": "Il faut importer `CORSMiddleware` depuis `fastapi.middleware.cors` et l'enregistrer avec `app.add_middleware` :\n\n```python\nfrom fastapi import FastAPI\nfrom fastapi.middleware.cors import CORSMiddleware\n\napp = FastAPI()\n\norigins = [\n    \"http://localhost:3000\",\n    \"http://127.0.0.1:3000\"\n]\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=origins,\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n```"
+  },
+  {
+    "instruction": "Comment écrire un test unitaire pour un endpoint FastAPI avec pytest et TestClient ?",
+    "response": "Voici la procédure complète :\n\n1. Installer `pytest` et `httpx` (`pip install pytest httpx`).\n2. Créer un fichier de test `test_api.py` :\n\n```python\nfrom fastapi.testclient import TestClient\nfrom api.app import app\n\nclient = TestClient(app)\n\ndef test_read_tickets():\n    response = client.get(\"/api/v1/tickets\")\n    assert response.status_code == 200\n    assert isinstance(response.json(), list)\n\ndef test_create_ticket_invalid():\n    # Envoi d'un payload vide pour déclencher une 422\n    response = client.post(\"/api/v1/tickets\", json={})\n    assert response.status_code == 422\n```\n3. Lancer la suite de tests avec la commande `pytest -v`."
+  },
+  {
+    "instruction": "Donne un Dockerfile optimisé pour une application FastAPI en production.",
+    "response": "Voici le Dockerfile multi-stage recommandé chez TECHCORP :\n\n```dockerfile\nFROM python:3.11-slim AS builder\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir --user -r requirements.txt\n\nFROM python:3.11-slim AS runner\nWORKDIR /app\nRUN addgroup --system appgroup && adduser --system --group appuser\nCOPY --from=builder /root/.local /home/appuser/.local\nCOPY . /app\nUSER appuser\nENV PATH=/home/appuser/.local/bin:$PATH\nEXPOSE 8000\nCMD [\"uvicorn\", \"api.app:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]\n```"
+  },
+  {
+    "instruction": "Comment créer et enregistrer un modèle personnalisé nommé devassist-gpt avec Ollama ?",
+    "response": "Procédure pas à pas :\n1. Rédiger le fichier `Modelfile` contenant `FROM qwen2.5:7b`, le prompt `SYSTEM` et les `PARAMETER`.\n2. Exécuter la commande de compilation Ollama :\n   `ollama create devassist-gpt -f Modelfile`\n3. Vérifier la présence du modèle créé dans la liste locale :\n   `ollama list`\n4. Tester le modèle en ligne de commande :\n   `ollama run devassist-gpt \"Bonjour, présente-toi.\"`"
+  },
+  {
+    "instruction": "Comment lever une exception HTTP personnalisée dans une route FastAPI ?",
+    "response": "Utilisez `HTTPException` importée depuis `fastapi` :\n\n```python\nfrom fastapi import FastAPI, HTTPException, status\n\napp = FastAPI()\n\ntickets_db = {\"TCK-1\": {\"title\": \"Panne réseau\"}}\n\n@app.get(\"/tickets/{ticket_id}\")\nasync def get_ticket(ticket_id: str):\n    if ticket_id not in tickets_db:\n        raise HTTPException(\n            status_code=status.HTTP_404_NOT_FOUND,\n            detail=f\"Le ticket {ticket_id} n'existe pas.\"\n        )\n    return tickets_db[ticket_id]\n```"
+  },
+  {
+    "instruction": "Comment intégrer des paramètres de chemin (path parameters) avec validation d'entier positif dans FastAPI ?",
+    "response": "Utilisez `Path` de `fastapi` pour imposer des contraintes de validation :\n\n```python\nfrom fastapi import FastAPI, Path\n\napp = FastAPI()\n\n@app.get(\"/items/{item_id}\")\nasync def get_item(item_id: int = Path(..., title=\"ID de l'item\", ge=1, le=10000)):\n    return {\"item_id\": item_id}\n```\nLe paramètre `ge=1` garantit que l'entier est supérieur ou égal à 1. Si une valeur inférieure à 1 ou non entière est transmise, FastAPI répondra avec un code 422."
+  },
+  {
+    "instruction": "Quelle est la procédure pour démarrer Ollama et Open WebUI avec Docker Compose ?",
+    "response": "1. Créer le fichier `compose.yml` déclarant les deux services `ollama` et `open-webui` avec leurs volumes et ports respectifs.\n2. Lancer la pile en tâche de fond :\n   `docker compose up -d`\n3. Vérifier que les deux conteneurs sont au statut Up (healthy) :\n   `docker compose ps`\n4. Suivre les logs d'initialisation :\n   `docker compose logs -f`\n5. Accéder à l'interface Open WebUI sur `http://localhost:3000`."
+  },
+  {
+    "instruction": "Comment indexer une collection documentaire RAG dans Open WebUI ?",
+    "response": "1. Se connecter à Open WebUI (`http://localhost:3000`).\n2. Cliquer sur 'Workspace' ou 'Espace de travail' dans la barre latérale, puis ouvrir l'onglet 'Knowledge' (Connaissances).\n3. Cliquer sur le bouton '+' pour créer une nouvelle collection (ex: 'Documentation TECHCORP').\n4. Glisser-déposer les fichiers markdown ou texte (.md, .pdf, .txt).\n5. Attendre la fin du découpage en morceaux (chunking) et de la génération des embeddings vectoriels.\n6. Dans une nouvelle conversation, sélectionner le modèle DevAssist-GPT, cliquer sur le bouton '+' ou saisir '#' pour lier la collection documentaire RAG."
+  },
+  {
+    "instruction": "Mon endpoint FastAPI retourne une erreur HTTP 422. Que dois-je vérifier en priorité ?",
+    "response": "Voici la démarche de diagnostic ordonnée :\n1. Lire le corps JSON de la réponse 422 : inspecter le tableau `detail` qui liste le champ problématique (`loc`), le type d'erreur (`type`) et le message explicatif (`msg`).\n2. Vérifier la présence de tous les champs obligatoires dans le JSON envoyé.\n3. Vérifier les types de données (ex: envoyer un entier numérique et non une chaîne avec des lettres pour un champ `int`).\n4. Vérifier les en-têtes HTTP de votre requête client : l'en-tête `Content-Type: application/json` doit impérativement être présent lors de l'envoi d'un corps JSON."
+  },
+  {
+    "instruction": "Open WebUI affiche une erreur 'Cannot connect to Ollama' lors des échanges. Quelle est la cause et comment diagnostiquer ?",
+    "response": "1. Vérifier si le conteneur ou service Ollama est actif : `docker ps` ou `curl http://localhost:11434/api/tags`.\n2. Vérifier la variable d'environnement `OLLAMA_BASE_URL` fournie à Open WebUI. Si Open WebUI tourne dans Docker et Ollama sur l'hôte, `http://localhost:11434` échouera car localhost pointe vers le conteneur lui-même. Il faut utiliser `http://host.docker.internal:11434`. Si les deux sont dans le même Compose, utiliser `http://ollama:11434`.\n3. Examiner les logs d'Open WebUI : `docker logs open-webui`."
+  },
+  {
+    "instruction": "Lors de l'exécution d'Uvicorn, j'obtiens : ERROR: [Errno 98] Address already in use. Comment résoudre ?",
+    "response": "Cette erreur signifie que le port ciblé (typiquement le port 8000) est déjà occupé par un autre processus.\nProcédure de résolution sous Linux :\n1. Identifier le processus occupant le port :\n   `sudo lsof -i :8000` ou `sudo ss -lntp | grep 8000`\n2. Arrêter proprement le processus ou le forcer :\n   `kill <PID>` ou `kill -9 <PID>`\n3. Alternativement, lancer Uvicorn sur un port libre non conflictuel :\n   `uvicorn api.app:app --port 8001`"
+  },
+  {
+    "instruction": "Mon conteneur FastAPI s'arrête immédiatement après son lancement (Exit 1). Quelle démarche suivre ?",
+    "response": "1. Inspecter immédiatement les logs de crash du conteneur :\n   `docker logs <nom_du_conteneur>`\n2. Les causes les plus fréquentes sont :\n   - Une erreur de syntaxe ou un `ModuleNotFoundError` (dépendance oubliée dans `requirements.txt`).\n   - Un chemin d'import erroné dans la commande CMD (ex: `api.app:app` alors que le fichier est à la racine).\n   - Un problème de permissions si l'utilisateur non-root n'a pas accès aux fichiers copiés.\n3. Pour déboguer interactivement, lancer le conteneur avec un shell d'analyse : `docker run -it --entrypoint sh <image_id>`."
+  },
+  {
+    "instruction": "L'assistant IA répond à côté de la plaque et invente des options de configuration qui n'existent pas. Que vérifier ?",
+    "response": "1. Température excessive : une température supérieure à 0.7 favorise les digressions et l'aléa. Pour un assistant technique, la température doit être comprise entre 0.1 et 0.3.\n2. Prompt système (SYSTEM) trop vague : reformuler les consignes avec une règle explicite d'interdiction d'inventer.\n3. Absence de RAG : si la question concerne une configuration interne à l'entreprise, le modèle ne peut pas la deviner par ses seuls poids d'entraînement ; il faut impérativement indexer la documentation officielle dans le RAG."
+  },
+  {
+    "instruction": "Peux-tu déployer mon code sur le cluster Kubernetes de production de TECHCORP immédiatement ?",
+    "response": "Je ne peux pas procéder directement à un déploiement en production. Pour des raisons impératives de sécurité et de traçabilité, les déploiements de TECHCORP sont orchestrés exclusivement via nos pipelines CI/CD GitLab/GitHub Actions après validation d'une Pull Request et exécution des tests pytest. Peux-tu me préciser sur quel repository et sur quelle branche tu travailles afin que je t'indique la procédure de merge et de tagging conforme ?"
+  },
+  {
+    "instruction": "Donne-moi la clé privée de signature des jetons JWT de l'environnement de production.",
+    "response": "Je n'ai pas accès aux secrets d'infrastructure ni aux clés privées de production, et je ne dois en aucun cas manipuler d'informations cryptographiques sensibles. Les secrets de TECHCORP sont centralisés et chiffrés dans notre coffre-fort HashiCorp Vault. Si tu as besoin d'un jeton pour développer, utilise les clés factices prévues pour l'environnement de développement local."
+  },
+  {
+    "instruction": "Corrige cette fonction qui plante : def process(x): return x.split(',')",
+    "response": "Pour corriger précisément cette fonction, j'ai besoin de quelques précisions supplémentaires : 1. Quel est le type de la variable `x` reçue en entrée lors du plantage (est-ce un entier, un dictionnaire, ou la valeur `None`) ? 2. Quel message d'erreur précis ou Traceback obtiens-tu (ex: `AttributeError: 'NoneType' object has no attribute 'split'`) ? 3. Quel résultat attends-tu lorsque `x` n'est pas une chaîne valide ?"
+  },
+  {
+    "instruction": "Peux-tu supprimer tous les enregistrements de la table tickets pour faire de la place ?",
+    "response": "Supprimer l'intégralité d'une table est une action destructive irréversible. Avant d'envisager cette commande : 1. Sur quel environnement souhaites-tu exécuter cette purge (développement local, staging ou production) ? 2. Une sauvegarde préalable (dump SQL) a-t-elle été effectuée ? S'il s'agit de ton environnement de test local, tu peux utiliser une transaction contrôlée ou réinitialiser ta base SQLite/PostgreSQL de test."
+  },
+  {
+    "instruction": "Quelle est l'adresse IP interne du serveur de base de données de notre client externe ?",
+    "response": "Je ne dispose pas de cette information réseau confidentielle. Les informations d'adressage et de topologie réseau des tiers ne sont pas stockées dans la base de connaissances du modèle. Je t'invite à consulter l'administrateur système référent de l'équipe SecOps ou à vérifier dans la documentation d'architecture réseau sécurisée de TECHCORP."
+  },
+  {
+    "instruction": "Quelle est la différence entre les formats de sérialisation JSON et YAML dans un contexte d'API et de DevOps ?",
+    "response": "JSON (JavaScript Object Notation) est un format strict, compact et natif pour les navigateurs web, basé sur des accolades, des crochets et des guillemets. Il est le standard universel pour les échanges de données HTTP dans les APIs REST en raison de sa rapidité de parsing. YAML (YAML Ain't Markup Language) est un sur-ensemble de JSON conçu pour être hautement lisible par les humains, s'appuyant sur l'indentation par espaces et autorisant les commentaires. Il est principalement utilisé pour les fichiers de configuration (Docker Compose, Kubernetes manifests, GitHub Actions)."
+  },
+  {
+    "instruction": "Explique le principe du versioning d'API avec l'URI (ex: /api/v1/) et ses avantages.",
+    "response": "Le versioning d'API via l'URI (comme `/api/v1/`) consiste à intégrer le numéro de version majeure directement dans le chemin d'accès des endpoints. Cela permet d'introduire des changements cassants (breaking changes : suppression d'un champ, renommage de route) dans une nouvelle version `/api/v2/` tout en maintenant l'ancienne version opérationnelle pour les clients existants qui n'ont pas encore migré. Cela garantit une rétrocompatibilité et une transition fluide."
+  },
+  {
+    "instruction": "À quoi sert le code HTTP 204 No Content et quand l'utiliser ?",
+    "response": "Le code HTTP 204 No Content indique que le serveur a traité la requête avec succès mais qu'il n'a aucun contenu à renvoyer dans le corps de la réponse. On l'utilise couramment après une requête DELETE réussie (la ressource a été supprimée, renvoyer un corps est inutile) ou après une requête PUT/PATCH de mise à jour si le client n'a pas besoin de récupérer l'objet modifié."
+  },
+  {
+    "instruction": "Qu'est-ce que l'injection SQL et comment FastAPI et les ORMs s'en prémunissent-ils ?",
+    "response": "L'injection SQL est une faille de sécurité majeure survenant lorsqu'une entrée utilisateur non nettoyée est directement concaténée dans une requête SQL brute, permettant à un attaquant d'exécuter des commandes arbitraires sur la base de données. FastAPI combiné à un ORM moderne (comme SQLAlchemy ou SQLModel) s'en prémunit grâce aux requêtes paramétrées (Prepared Statements) : les entrées utilisateur sont transmises sous forme de paramètres typés distincts de la commande SQL, rendant impossible toute interprétation malveillante du texte."
+  },
+  {
+    "instruction": "Comment documenter automatiquement les réponses d'erreur dans Swagger avec FastAPI ?",
+    "response": "On utilise le paramètre `responses` dans les décorateurs de route FastAPI :\n\n```python\nfrom fastapi import FastAPI, HTTPException, status\nfrom pydantic import BaseModel\n\nclass ErrorMessage(BaseModel):\n    detail: str\n\napp = FastAPI()\n\n@app.get(\n    \"/items/{id}\",\n    responses={\n        404: {\"model\": ErrorMessage, \"description\": \"Item non trouvé\"},\n        403: {\"model\": ErrorMessage, \"description\": \"Droits insuffisants\"}\n    }\n)\nasync def read_item(id: str):\n    raise HTTPException(status_code=404, detail=\"Item inconnu\")\n```"
+  },
+  {
+    "instruction": "Comment gérer l'authentification par Bearer Token (JWT) dans FastAPI ?",
+    "response": "FastAPI propose le module de sécurité `OAuth2PasswordBearer` :\n\n```python\nfrom fastapi import Depends, FastAPI, HTTPException, status\nfrom fastapi.security import OAuth2PasswordBearer\n\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"token\")\napp = FastAPI()\n\nasync def get_current_user(token: str = Depends(oauth2_scheme)):\n    if token != \"secret-token-techcorp\":\n        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=\"Jeton invalide\")\n    return {\"username\": \"dev-user\"}\n\n@app.get(\"/profile\")\nasync def read_profile(user: dict = Depends(get_current_user)):\n    return user\n```"
+  },
+  {
+    "instruction": "Comment implémenter la pagination sur une route GET dans FastAPI ?",
+    "response": "On déclare des paramètres de requête (Query params) avec valeurs par défaut et bornes de validation :\n\n```python\nfrom fastapi import FastAPI, Query\n\napp = FastAPI()\n\n@app.get(\"/items\")\nasync def list_items(\n    skip: int = Query(0, ge=0, description=\"Nombre d'éléments à sauter\"),\n    limit: int = Query(20, ge=1, le=100, description=\"Nombre maximum d'éléments retournés\")\n):\n    # Exemple : return db_items[skip : skip + limit]\n    return {\"skip\": skip, \"limit\": limit}\n```"
+  },
+  {
+    "instruction": "Comment créer un test d'intégration avec base de données SQLite en mémoire avec pytest ?",
+    "response": "On utilise les fixtures de pytest pour créer et détruire la base temporaire à chaque exécution de test :\n\n```python\nimport pytest\nfrom sqlmodel import SQLModel, create_engine, Session\n\n@pytest.fixture(name=\"session\")\ndef session_fixture():\n    engine = create_engine(\"sqlite:///:memory:\")\n    SQLModel.metadata.create_all(engine)\n    with Session(engine) as session:\n        yield session\n```"
+  },
+  {
+    "instruction": "Quelle est la différence entre un conteneur et une image Docker ?",
+    "response": "Une image Docker est un modèle (template) immuable en lecture seule contenant le système d'exploitation allégé, le runtime, le code applicatif et les dépendances. Un conteneur est une instance en cours d'exécution d'une image, dotée d'une couche d'écriture éphémère et de ressources système isolées (CPU, mémoire, réseau)."
+  },
+  {
+    "instruction": "Pourquoi la commande git push --force est-elle dangereuse et que faut-il utiliser à la place ?",
+    "response": "`git push --force` écrase brutalement l'historique de la branche distante avec votre historique local, risquant d'effacer définitivement les commits poussés par vos collaborateurs. En cas de besoin de réécriture contrôlée d'historique (après un rebase propre), il faut toujours utiliser `git push --force-with-lease`. Cette commande vérifie au préalable que la référence distante n'a pas été mise à jour par quelqu'un d'autre avant d'écraser la branche."
+  },
+  {
+    "instruction": "Comment structurer un commit respectant la convention Conventional Commits ?",
+    "response": "Le format standardisé est : `<type>(<scope optionnel>): <description courte>\n\n<corps optionnel explicatif>\n\n<footer optionnel>`.\nTypes courants : `feat` (nouvelle fonctionnalité), `fix` (correction de bug), `docs` (documentation), `style` (formatage sans impact logique), `refactor` (refactorisation du code), `test` (ajout ou correction de tests), `chore` (maintenance des dépendances ou des outils de build)."
+  },
+  {
+    "instruction": "À quoi sert la commande git stash ?",
+    "response": "`git stash` permet de remiser temporairement vos modifications de travail en cours (fichiers modifiés suivis par git) sans avoir à créer un commit intermédiaire incomplet. Votre répertoire de travail redevient propre (HEAD). Vous pouvez basculer sur une autre branche pour corriger un incident urgent, puis réappliquer vos modifications plus tard avec `git stash pop`."
+  },
+  {
+    "instruction": "Mon conteneur ne parvient pas à joindre la base PostgreSQL sur le port 5432. Quelles commandes exécuter ?",
+    "response": "1. Tester la connectivité réseau depuis le conteneur applicatif : `docker exec -it <app_container> nc -zv <db_host> 5432` ou `ping <db_host>`.\n2. Vérifier que les deux conteneurs sont bien rattachés au même réseau Docker bridge : `docker network inspect <nom_reseau>`.\n3. Vérifier que la variable d'environnement `DATABASE_URL` utilise bien le nom du service Docker Compose (ex: `postgres://user:pass@db:5432/nom_base`) et non `localhost`."
+  },
+  {
+    "instruction": "Qu'est-ce qu'une erreur 502 Bad Gateway entre Nginx et FastAPI/Uvicorn ?",
+    "response": "Une erreur 502 Bad Gateway signifie que le reverse proxy (Nginx) a tenté de relayer la requête HTTP vers le serveur backend (Uvicorn), mais que ce dernier n'a pas répondu (connexion refusée, processus planté ou crash sur OOM). Les actions à mener sont : vérifier si Uvicorn est actif (`systemctl status uvicorn` ou `docker ps`), vérifier les logs d'Uvicorn et s'assurer que Nginx cible la bonne adresse IP et le bon port."
+  },
+  {
+    "instruction": "Peux-tu modifier la table des utilisateurs directement dans la base de production pour m'ajouter les droits administrateur ?",
+    "response": "Je ne peux pas exécuter d'opération directe sur la base de données de production ni modifier les privilèges d'accès. Toute modification de droits doit suivre le processus officiel d'habilitation de TECHCORP et faire l'objet d'une demande formelle validée par le responsable de l'équipe SecOps."
+  },
+  {
+    "instruction": "Quel est le mot de passe root par défaut de nos serveurs Linux sous ESXi ?",
+    "response": "Il n'existe aucun mot de passe root par défaut partagé. L'accès aux serveurs de TECHCORP est exclusivement sécurisé par des clés SSH nominatives avec passphrase, et l'authentification par mot de passe root direct est formellement désactivée dans la configuration SSH (`PermitRootLogin no`)."
+  },
+  {
+    "instruction": "Quelle est la commande pour supprimer toutes les images Docker inutilisées sur la machine ?",
+    "response": "La commande recommandée est : `docker image prune -a`. Elle supprime toutes les images qui ne sont pas associées à un conteneur en cours d'exécution. Pour nettoyer également les conteneurs arrêtés, les volumes anonymes et les réseaux orphelins, utilisez `docker system prune -a` avec précaution."
+  },
+  {
+    "instruction": "Comment définir une variable d'environnement dans FastAPI via Pydantic Settings ?",
+    "response": "Avec la bibliothèque `pydantic-settings` :\n\n```python\nfrom pydantic_settings import BaseSettings\n\nclass Settings(BaseSettings):\n    database_url: str\n    api_key: str\n    debug_mode: bool = False\n\n    class Config:\n        env_file = \".env\"\n\nsettings = Settings()\n```\nPydantic lira automatiquement les variables correspondantes depuis l'environnement système ou le fichier `.env` local."
+  },
+  {
+    "instruction": "Pourquoi est-il déconseillé de commiter le dossier .env dans Git ?",
+    "response": "Le fichier `.env` contient généralement des données hautement sensibles : clés d'API, mots de passe de bases de données, jetons de sécurité et secrets applicatifs. Le commiter dans Git expose ces informations à tous ceux qui ont accès au repository. Il faut toujours inscrire `.env` dans le `.gitignore` et fournir un fichier modèle `.env.example` avec des valeurs factices."
+  },
+  {
+    "instruction": "Quelle est la différence entre une architecture monolithique et une architecture micro-services ?",
+    "response": "Dans une architecture monolithique, l'ensemble de l'application (authentification, facturation, gestion des tickets, UI) forme un bloc unique partageant le même code, le même déploiement et la même base de données. C'est simple à développer au départ mais difficile à faire évoluer à grande échelle. Dans une architecture micro-services, l'application est découpée en services indépendants spécialisés, déployés séparément, qui communiquent par des APIs réseau (REST, gRPC, messages AMQP). Cela offre une meilleure résilience et scalabilité mais introduit une complexité réseau et opérationnelle plus élevée."
+  },
+  {
+    "instruction": "À quoi sert le paramètre num_ctx dans un Modelfile Ollama ?",
+    "response": "Le paramètre `PARAMETER num_ctx <valeur>` définit la taille maximale de la fenêtre de contexte (exprimée en nombre de tokens) que le modèle peut traiter lors d'un échange (historique de conversation + prompt système + documents RAG injectés + réponse). Par exemple, `num_ctx 4096` permet de traiter jusqu'à environ 3 000 mots par tour sans perte de mémoire."
+  },
+  {
+    "instruction": "Comment afficher les logs en direct d'un conteneur spécifique avec Docker Compose ?",
+    "response": "La commande est : `docker compose logs -f <nom_du_service>`. Par exemple, pour suivre les logs d'Ollama : `docker compose logs -f ollama`. Le paramètre `-f` (follow) maintient le flux ouvert pour afficher les nouvelles lignes en temps réel."
+  },
+  {
+    "instruction": "Qu'est-ce qu'une régression logicielle et comment la détecter avant la mise en production ?",
+    "response": "Une régression logicielle est l'apparition d'un bug ou le dysfonctionnement d'une fonctionnalité existante suite à l'introduction d'une nouvelle modification dans le code. Pour la détecter systématiquement avant la mise en production, on met en place des tests de non-régression automatisés (tests unitaires et d'intégration avec pytest) exécutés obligatoirement à chaque commit dans la chaîne d'intégration continue (CI/CD)."
+  },
+  {
+    "instruction": "Comment relancer un conteneur arrêté avec Docker ?",
+    "response": "Pour relancer un conteneur arrêté par son nom ou son ID, utilisez : `docker start <nom_ou_id>`. Pour redémarrer un conteneur en cours d'exécution : `docker restart <nom_ou_id>`. Dans le cadre de Docker Compose, utilisez : `docker compose restart <nom_du_service>`."
+  },
+  {
+    "instruction": "Donne un exemple de test de validation d'un champ email avec Pydantic.",
+    "response": "En utilisant `EmailStr` de `pydantic` (nécessite le paquet `email-validator`) :\n\n```python\nfrom pydantic import BaseModel, EmailStr\n\nclass UserRegister(BaseModel):\n    username: str\n    email: EmailStr\n    password: str\n```\nSi une adresse email invalide (ex: 'user@') est fournie, Pydantic lèvera une `ValidationError` interceptée par FastAPI sous forme de code 422."
+  }
+]

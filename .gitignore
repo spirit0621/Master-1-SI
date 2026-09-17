@@ -1,0 +1,39 @@
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pytest_cache/
+.pytest_cache/
+
+# Sensitive environment variables
+.env
+*.env.local
+
+# Database & binary cache
+*.db-journal
+*.sqlite-journal
+
+# ML models, adapters & weights (>100MB)
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.weights
+*.h5
+*.pkl
+**/model/adapter/
+**/adapter/
+
+# Logs
+*.log
+logs/techcorp_calls.jsonl
+
+# IDE configuration
+.agents/

@@ -1,0 +1,18 @@
+PROCEDURE GÉNÉRALE D'ESCALADE DES INCIDENTS TECHNIQUES TECHCORP
+Identifiant : PROC-OPS-GEN-002
+Champ d'application : Équipes Support N1, Exploitation Système & Réseau
+
+1. CLASSIFICATION DES PRIORITÉS
+- CRITICAL : Service de production indisponible (ex : PostgreSQL SRV-DB-01 inaccessible, DNS indisponible).
+- HIGH : Dégradation de performance majeure ou redondance perdue.
+- MEDIUM : Dysfonctionnement partiel sans interruption de service globale.
+- LOW : Anomalie mineure ou demande de maintenance préventive.
+
+2. RÈGLE D'ARBITRAGE ENTRE INVENTAIRE ET MESURE TECHNIQUE
+- L'état déclaré en inventaire (CMDB) est indicatif et historique.
+- Seule la sonde temps réel (socket TCP ou ping vérifié) fait foi pour l'état d'exploitation.
+- Si contradiction (Inventaire UP mais Socket DOWN) :
+  1. Notifier immédiatement la discordance.
+  2. Vérifier l'état du port cible (ex: port 5432 pour PostgreSQL, port 80/443 pour Nginx).
+  3. Vérifier les erreurs récentes dans la table events.
+  4. Ne jamais conclure à la panne d'une machine sans avoir testé à la fois l'hôte et son service.

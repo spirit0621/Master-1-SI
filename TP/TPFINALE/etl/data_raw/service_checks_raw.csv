@@ -1,0 +1,8 @@
+timestamp,hostname,port,tcp_result,latency_ms,source
+2026-09-15 09:50:00,SRV-APP-01,8000,SUCCESS,1.45,probe_internal
+2026-09-15 10:00:00,srv-db-01,5432,SUCCESS,2.10,probe_internal
+2026-09-15 10:05:00,SRV-WEB-01,80,SUCCESS,4.32,probe_external
+2026-09-15 10:10:00,SRV-DB-01,5432,FAILED,0.00,probe_internal
+2026-09-15 10:10:30,SRV-DB-01 ,5432,FAILED,0.00,probe_internal
+2026-09-15 10:15:00,srv-dns-01,53,SUCCESS,1.12,probe_internal
+2026-09-15 10:20:00,SRV-BK-01,9102,TIMEOUT,2000.00,probe_internal
