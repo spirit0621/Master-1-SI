@@ -163,33 +163,6 @@ def create_new_ticket(ticket: TicketCreate):
         description=ticket.description
     )
 
-@app.get("/git-sync-all")
-def git_sync_all():
-    import subprocess
-    repo_dir = r"c:\Users\alves\Desktop\Lycée, bts , formation, master\CFA-insta\Master 1 SI"
-    clean_url = "https://github.com/spirit0621/Master-1-SI.git"
-    
-    cmds = [
-        ["git", "status"],
-        ["git", "add", "TP/TPFINALE"],
-        ["git", "status"],
-        ["git", "commit", "-m", "chore: sync project files and requirements for TPFINALE"],
-        ["git", "push", "origin", "main"],
-        ["git", "subtree", "split", "--prefix=TP/TPFINALE", "-b", "tpfinale-sync"],
-        ["git", "push", "origin", "tpfinale-sync:tpfinale", "--force"],
-        ["git", "branch", "-D", "tpfinale-sync"]
-    ]
-    
-    logs = []
-    for cmd in cmds:
-        try:
-            res = subprocess.run(cmd, cwd=repo_dir, capture_output=True, text=True, timeout=60)
-            logs.append({"cmd": " ".join(cmd), "stdout": res.stdout, "stderr": res.stderr, "returncode": res.returncode})
-        except Exception as e:
-            logs.append({"cmd": " ".join(cmd), "error": str(e)})
-            
-    return logs
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("api.main:app", host="0.0.0.0", port=8000, reload=True)
