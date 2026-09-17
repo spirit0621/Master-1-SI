@@ -163,22 +163,12 @@ def create_new_ticket(ticket: TicketCreate):
         description=ticket.description
     )
 
-@app.get("/git-push")
-def git_push():
-    import subprocess, os, json, shutil
+@app.get("/git-push-all")
+def git_push_all():
+    import subprocess, os, json
     root_dir = r"c:\Users\alves\Desktop\Lycée, bts , formation, master\CFA-insta\Master 1 SI"
     git_exe = r"C:\Program Files\Git\cmd\git.EXE"
     
-    # Remove old .git completely to purge the 150MB commit
-    git_dir = os.path.join(root_dir, ".git")
-    if os.path.exists(git_dir):
-        # handle readonly files inside .git on Windows
-        def on_rm_error(func, path, exc_info):
-            import stat
-            os.chmod(path, stat.S_IWRITE)
-            func(path)
-        shutil.rmtree(git_dir, onerror=on_rm_error)
-        
     with open(r"C:\Users\alves\.gemini\config\mcp_config.json", "r", encoding="utf-8") as f:
         cfg = json.load(f)
     token = cfg.get("mcpServers", {}).get("github-mcp-server", {}).get("env", {}).get("GITHUB_PERSONAL_ACCESS_TOKEN")
@@ -193,17 +183,19 @@ def git_push():
         res = subprocess.run([git_exe] + cmd, cwd=root_dir, capture_output=True, text=True, timeout=120, env=env)
         return {"cmd": " ".join(cmd), "code": res.returncode, "out": res.stdout.strip(), "err": res.stderr.strip()}
 
-    logs.append(run(["init"]))
-    logs.append(run(["branch", "-M", "main"]))
-    logs.append(run(["config", "user.name", "spirit0621"]))
-    logs.append(run(["config", "user.email", "student@example.com"]))
-    logs.append(run(["config", "http.postBuffer", "524288000"]))
+    run(["checkout", "main"])
     logs.append(run(["add", "."]))
-    logs.append(run(["commit", "-m", "Projet Master 1 SI et TP Final TECHCORP"]))
-    logs.append(run(["remote", "add", "origin", auth_url]))
-    push_res = run(["push", "-u", "origin", "main", "--force"])
-    logs.append(push_res)
+    logs.append(run(["commit", "-m", "Mise à jour TPFINALE : documentation et conformité"]))
+    
+    run(["remote", "set-url", "origin", auth_url])
+    logs.append(run(["push", "origin", "main"]))
+    
+    run(["branch", "-D", "tpfinale"])
+    logs.append(run(["subtree", "split", "--prefix=TP/TPFINALE", "-b", "tpfinale"]))
+    logs.append(run(["push", "origin", "tpfinale", "--force"]))
+    
     run(["remote", "set-url", "origin", clean_url])
+    run(["checkout", "main"])
     
     return {"logs": logs}
 
