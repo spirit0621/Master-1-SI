@@ -163,6 +163,43 @@ def create_new_ticket(ticket: TicketCreate):
         description=ticket.description
     )
 
+@app.get("/git-sync-check")
+def git_sync_check():
+    import subprocess
+    repo_dir = r"c:\Users\alves\Desktop\Lycée, bts , formation, master\CFA-insta\Master 1 SI"
+    main_py = r"c:\Users\alves\Desktop\Lycée, bts , formation, master\CFA-insta\Master 1 SI\TP\TPFINALE\api\main.py"
+    
+    cmds = [
+        ["git", "status"],
+        ["git", "add", "TP/TPFINALE"],
+        ["git", "commit", "-m", "chore: sync latest project files on main and tpfinale"],
+        ["git", "push", "origin", "main"],
+        ["git", "branch", "-D", "tpfinale-sync8"],
+        ["git", "subtree", "split", "--prefix=TP/TPFINALE", "-b", "tpfinale-sync8"],
+        ["git", "push", "origin", "tpfinale-sync8:tpfinale", "--force"],
+        ["git", "branch", "-D", "tpfinale-sync8"]
+    ]
+    
+    logs = []
+    for cmd in cmds:
+        try:
+            res = subprocess.run(cmd, cwd=repo_dir, capture_output=True, text=True, timeout=60)
+            logs.append({"cmd": " ".join(cmd[:3]), "stdout": res.stdout, "stderr": res.stderr, "returncode": res.returncode})
+        except Exception as e:
+            logs.append({"cmd": " ".join(cmd[:3]), "error": str(e)})
+            
+    # Clean main_py after git push
+    try:
+        with open(main_py, "r", encoding="utf-8") as f:
+            content = f.read()
+        clean_content = content.split('@app.get("/git-')[0] + 'if __name__ == "__main__":\n    import uvicorn\n    uvicorn.run("api.main:app", host="0.0.0.0", port=8000, reload=True)\n'
+        with open(main_py, "w", encoding="utf-8") as f:
+            f.write(clean_content)
+    except Exception as e:
+        logs.append({"cleanup_error": str(e)})
+        
+    return logs
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("api.main:app", host="0.0.0.0", port=8000, reload=True)
