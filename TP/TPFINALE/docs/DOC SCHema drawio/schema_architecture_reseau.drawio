@@ -47,7 +47,7 @@
           <mxGeometry x="510" y="100" width="380" height="580" as="geometry" />
         </mxCell>
 
-        <mxCell id="mcp_box" value="&lt;b&gt;Serveur MCP (FastMCP)&lt;/b&gt;&lt;br&gt;Port :8080 ou STDIO&lt;br&gt;&lt;i&gt;mcp_server/server.py&lt;/i&gt;&lt;br&gt;&lt;ul style=&quot;margin:0;padding-left:15px;text-align:left;&quot;&gt;&lt;li&gt;get_server_info(hostname)&lt;/li&gt;&lt;li&gt;list_open_tickets(priority)&lt;/li&gt;&lt;li&gt;get_recent_events(hostname)&lt;/li&gt;&lt;li&gt;check_server_availability(hostname)&lt;/li&gt;&lt;li&gt;get_last_service_check(hostname)&lt;/li&gt;&lt;li&gt;create_ticket(confirm=True)&lt;/li&gt;&lt;/ul&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDE68A;strokeColor=#D97706;strokeWidth=2;fontSize=11;fontColor=#78350F;" vertex="1" parent="zone_app">
+        <mxCell id="mcp_box" value="&lt;b&gt;Serveur MCP (FastMCP)&lt;/b&gt;&lt;br&gt;Port :8080 ou STDIO&lt;br&gt;&lt;i&gt;mcp_server/server.py&lt;/i&gt;&lt;br&gt;&lt;ul style=&quot;margin:0;padding-left:15px;text-align:left;&quot;&gt;&lt;li&gt;get_server_info(hostname)&lt;/li&gt;&lt;li&gt;check_server_availability(hostname, port)&lt;/li&gt;&lt;li&gt;list_open_tickets(priority)&lt;/li&gt;&lt;li&gt;create_ticket(confirm=True)&lt;/li&gt;&lt;li&gt;read_procedure(category)&lt;/li&gt;&lt;li&gt;get_recent_events(hostname)&lt;/li&gt;&lt;/ul&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDE68A;strokeColor=#D97706;strokeWidth=2;fontSize=11;fontColor=#78350F;" vertex="1" parent="zone_app">
           <mxGeometry x="40" y="50" width="300" height="170" as="geometry" />
         </mxCell>
 
@@ -59,7 +59,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
-        <mxCell id="resources_box" value="&lt;b&gt;Resources &amp;amp; Prompts MCP&lt;/b&gt;&lt;br&gt;&lt;i&gt;procedure://dns&lt;/i&gt;&lt;br&gt;&lt;i&gt;inventory://summary&lt;/i&gt;&lt;br&gt;&lt;i&gt;Prompt : analyse_incident&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF9C3;strokeColor=#CA8A04;strokeWidth=1;fontSize=10;fontColor=#854D0E;" vertex="1" parent="zone_app">
+        <mxCell id="resources_box" value="&lt;b&gt;Resources &amp;amp; Prompts MCP (Niveau Avancé)&lt;/b&gt;&lt;br&gt;&lt;i&gt;techcorp://procedures/dns&lt;/i&gt;&lt;br&gt;&lt;i&gt;techcorp://procedures/incidents&lt;/i&gt;&lt;br&gt;&lt;i&gt;Prompt : incident_diagnostic&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF9C3;strokeColor=#CA8A04;strokeWidth=1;fontSize=10;fontColor=#854D0E;" vertex="1" parent="zone_app">
           <mxGeometry x="40" y="460" width="300" height="80" as="geometry" />
         </mxCell>
 
@@ -68,7 +68,7 @@
           <mxGeometry x="960" y="100" width="460" height="280" as="geometry" />
         </mxCell>
 
-        <mxCell id="pg_box" value="&lt;b&gt;Base Relationnelle PostgreSQL 16&lt;/b&gt;&lt;br&gt;Port TCP :5432&lt;br&gt;Base : &lt;i&gt;techcorp&lt;/i&gt; | Utilisateur : &lt;i&gt;techapp&lt;/i&gt;&lt;br&gt;&lt;hr&gt;&lt;table style=&quot;font-size:10px;text-align:left;width:100%;&quot;&gt;&lt;tr&gt;&lt;td&gt;&amp;bull; &lt;b&gt;servers&lt;/b&gt; (inventaire)&lt;/td&gt;&lt;td&gt;&amp;bull; &lt;b&gt;service_checks&lt;/b&gt; (sondes)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&amp;bull; &lt;b&gt;services&lt;/b&gt; (ports)&lt;/td&gt;&lt;td&gt;&amp;bull; &lt;b&gt;events&lt;/b&gt; (logs parsés)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&amp;bull; &lt;b&gt;tickets&lt;/b&gt; (incidents)&lt;/td&gt;&lt;td&gt;&amp;bull; &lt;b&gt;ingestion_audit&lt;/b&gt; (ETL)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#D1FAE5;strokeColor=#059669;strokeWidth=2;fontSize=11;fontColor=#064E3B;" vertex="1" parent="zone_data">
+        <mxCell id="pg_box" value="&lt;b&gt;Base Relationnelle PostgreSQL 16 / SQLite&lt;/b&gt;&lt;br&gt;Port TCP :5432&lt;br&gt;Base : &lt;i&gt;techcorp&lt;/i&gt; | Utilisateur : &lt;i&gt;techapp&lt;/i&gt;&lt;br&gt;&lt;hr&gt;&lt;table style=&quot;font-size:10px;text-align:left;width:100%;&quot;&gt;&lt;tr&gt;&lt;td&gt;&amp;bull; &lt;b&gt;servers&lt;/b&gt; (inventaire)&lt;/td&gt;&lt;td&gt;&amp;bull; &lt;b&gt;service_checks&lt;/b&gt; (sondes)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&amp;bull; &lt;b&gt;roles&lt;/b&gt; (droits RBAC)&lt;/td&gt;&lt;td&gt;&amp;bull; &lt;b&gt;events&lt;/b&gt; (logs parsés)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&amp;bull; &lt;b&gt;tickets&lt;/b&gt; (incidents)&lt;/td&gt;&lt;td&gt;&amp;bull; &lt;b&gt;ingestion_audit&lt;/b&gt; (ETL)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&amp;bull; &lt;b&gt;procedures&lt;/b&gt; (RAG)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#D1FAE5;strokeColor=#059669;strokeWidth=2;fontSize=11;fontColor=#064E3B;" vertex="1" parent="zone_data">
           <mxGeometry x="40" y="50" width="380" height="200" as="geometry" />
         </mxCell>
 
