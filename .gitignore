@@ -37,3 +37,6 @@ Thumbs.db
 # Volumes locaux Docker
 pgdata/
 ollama_data/
+
+# Documents personnels
+DOCS PERSO/
