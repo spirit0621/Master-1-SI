@@ -10,7 +10,11 @@ import streamlit as st
 from datetime import datetime
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+import importlib
+import app.llm_engine
+importlib.reload(app.llm_engine)
 from app.llm_engine import query_techcorp_assistant
+get_active_model = getattr(app.llm_engine, "get_active_model", lambda: "qwen2.5:7b")
 try:
     from app.logger import get_recent_logs, clear_mcp_logs
 except ImportError:
@@ -69,7 +73,8 @@ with st.sidebar:
     except Exception:
         db_txt = "🔴 DB : Indisponible"
         
-    st.markdown(f"**{db_txt}** | **🟢 FastAPI : 8000**\n\n**🟢 FastMCP : Actif** | **🟢 LLM : Qwen 4B**")
+    llm_name = get_active_model()
+    st.markdown(f"**{db_txt}** | **🟢 FastAPI : 8000**\n\n**🟢 FastMCP : Actif** | **🟢 LLM : {llm_name}**")
     st.divider()
     st.subheader("🎯 Scénarios d'Évaluation")
 

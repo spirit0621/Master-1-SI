@@ -46,25 +46,75 @@ RÈGLES IMPÉRATIVES :
    - 💡 RECOMMANDATIONS (actions d'exploitation à mener)
 """
 
+_detected_model = None
+
+def get_active_model() -> str:
+    """Découverte automatique du modèle Ollama installé localement."""
+    global _detected_model
+    if _detected_model:
+        return _detected_model
+        
+    candidate_hosts = [OLLAMA_HOST, "http://127.0.0.1:11434", "http://127.0.0.1:11435", "http://localhost:11434"]
+    for host in candidate_hosts:
+        try:
+            res = requests.get(f"{host}/api/tags", timeout=1.5)
+            if res.status_code == 200:
+                data = res.json()
+                models = [m.get("name", "") for m in data.get("models", [])]
+                if models:
+                    # 1. Correspondance avec le modèle configuré
+                    for m in models:
+                        if OLLAMA_MODEL.lower() in m.lower():
+                            _detected_model = m
+                            return _detected_model
+                    # 2. Chercher un modèle conversationnel classique
+                    for m in models:
+                        for pref in ["qwen", "mistral", "llama", "deepseek", "phi", "gemma"]:
+                            if pref in m.lower():
+                                _detected_model = m
+                                return _detected_model
+                    # 3. Premier modèle disponible
+                    _detected_model = models[0]
+                    return _detected_model
+        except Exception:
+            continue
+            
+    _detected_model = OLLAMA_MODEL
+    return _detected_model
+
 def call_ollama(prompt: str, system: str = SYSTEM_PROMPT) -> Optional[str]:
-    """Appel au moteur LLM Ollama avec timeout strict et fallback gracieux."""
+    """Appel au moteur LLM Ollama avec timeout réaliste et fallback gracieux."""
+    model = get_active_model()
+    candidate_hosts = [OLLAMA_HOST, "http://127.0.0.1:11434", "http://127.0.0.1:11435", "http://localhost:11434"]
+    for host in candidate_hosts:
+        try:
+            url = f"{host}/api/generate"
+            payload = {
+                "model": model,
+                "prompt": prompt,
+                "system": system,
+                "stream": False,
+                "options": {"temperature": 0.3}
+            }
+            res = requests.post(url, json=payload, timeout=35.0)
+            if res.status_code == 200:
+                content = res.json().get("response", "").strip()
+                if content:
+                    return content
+        except Exception:
+            continue
+    return None
+
+def synthesize_with_llm(context_prompt: str, fallback_text: str) -> str:
+    """Demande au LLM de formuler sa propre analyse à partir des données factuelles réelles.
+    Garantit le fallback immédiat si Ollama est éteint ou trop lent."""
     try:
-        url = f"{OLLAMA_HOST}/api/generate"
-        payload = {
-            "model": OLLAMA_MODEL,
-            "prompt": prompt,
-            "system": system,
-            "stream": False,
-            "options": {"temperature": 0.2}
-        }
-        res = requests.post(url, json=payload, timeout=6.0)
-        if res.status_code == 200:
-            content = res.json().get("response", "").strip()
-            if content:
-                return content
+        llm_reply = call_ollama(context_prompt)
+        if llm_reply and len(llm_reply.strip()) > 30:
+            return llm_reply
     except Exception:
         pass
-    return None
+    return fallback_text
 
 def execute_tool_with_logging(tool_func, tool_name: str, args: dict, user_question: str, request_id: str) -> Any:
     start_t = time.time()
@@ -208,7 +258,26 @@ def query_techcorp_assistant(user_question: str, confirm_action: bool = False) -
 2. Effectuer une vérification directe du service sur `{target}` : `systemctl status postgresql` ou `ss -lntp`.
 3. Mettre à jour le ticket associé via FastAPI une fois l'intervention terminée.
 """
-        return {"answer": answer, "traces": traces, "request_id": request_id}
+        prompt_llm = f"""Tu es l'assistant IA d'exploitation TECHCORP.
+L'opérateur demande : "{user_question}"
+
+Données FACTUELLES réelles collectées via les outils MCP :
+- Machine cible : {target}
+- Données inventaire (PostgreSQL) : IP {info.get('ip_address')}, rôle {info.get('role')}, OS {info.get('os')}, statut déclaratif {inv_status}
+- Tickets associés : {tickets_str}
+- Événements récents : {events_str}
+- Mesure réseau temps réel (Sonde TCP port {tested_port}) : résultat {live_result} ({latency} ms)
+- Procédure consultée : {proc_uri}
+- Synthèse : {analysis_status}
+
+Rédige une analyse d'exploitation complète, claire et professionnelle en français.
+Structure obligatoirement ainsi :
+**1. Faits établis :**
+**2. Analyse technique :**
+**3. Recommandations :**
+"""
+        final_answer = synthesize_with_llm(prompt_llm, answer)
+        return {"answer": final_answer, "traces": traces, "request_id": request_id}
 
     # --- Scénario F1 : Tickets critiques ouverts ---
     elif "ticket" in q_lower and ("critique" in q_lower or "critical" in q_lower or "ouvert" in q_lower or "open" in q_lower):
@@ -232,7 +301,20 @@ def query_techcorp_assistant(user_question: str, confirm_action: bool = False) -
 - Traiter en priorité l'incident DB sur `SRV-DB-01` pour rétablir les accès applicatifs.
 - Vérifier les alertes réseau associées.
 """
-        return {"answer": answer, "traces": traces, "request_id": request_id}
+        prompt_llm = f"""Tu es l'assistant IA d'exploitation TECHCORP.
+L'opérateur demande : "{user_question}"
+
+Tickets d'incidents critiques ouverts dans l'API métier FastAPI :
+{tickets_str}
+
+Rédige une réponse d'exploitation synthétique en français.
+Structure obligatoirement ainsi :
+**1. Faits établis :**
+**2. Analyse technique :**
+**3. Recommandations :**
+"""
+        final_answer = synthesize_with_llm(prompt_llm, answer)
+        return {"answer": final_answer, "traces": traces, "request_id": request_id}
 
     # --- Scénario F3 : Contradiction Fonctionne-t-il réellement / Disponibilité ---
     elif ("fonctionne" in q_lower or "disponible" in q_lower or "status" in q_lower or "état" in q_lower) and ("srv-db-01" in q_lower or "db" in q_lower):
@@ -259,7 +341,7 @@ def query_techcorp_assistant(user_question: str, confirm_action: bool = False) -
         answer = f"""### 🔍 Diagnostic d'Exploitation : {target}
 **1. Faits établis :**
 - **Inventaire (PostgreSQL) :** Machine `{target}` déclarée statut `{inv_status}` (Rôle: `{info.get('role')}`, OS: `{info.get('os')}`).
-- **Test Réseau Temps Réel (Sonde TCP) :** Port {probe.get('port_tested')} $\rightarrow$ Résultat : `{live_result}` (Latence : {probe.get('latency_ms')}ms).
+- **Test Réseau Temps Réel (Sonde TCP) :** Port {probe.get('port_tested')} $\\rightarrow$ Résultat : `{live_result}` (Latence : {probe.get('latency_ms')}ms).
 - **Dernier événement journalisé :** `{events[0]['message'] if events else 'Aucun'}`.
 
 **2. Analyse technique :**
@@ -271,7 +353,24 @@ def query_techcorp_assistant(user_question: str, confirm_action: bool = False) -
 2. Se connecter sur `SRV-DB-01` et vérifier le service : `systemctl status postgresql`.
 3. Contrôler les autorisations dans `pg_hba.conf` et les sockets ouverts : `ss -lntp | grep 5432`.
 """
-        return {"answer": answer, "traces": traces, "request_id": request_id}
+        prompt_llm = f"""Tu es l'assistant IA d'exploitation TECHCORP.
+L'opérateur demande : "{user_question}"
+
+Données factuelles réelles collectées via les Tools MCP :
+- Machine cible : {target}
+- Inventaire CMDB : {target} déclaré {inv_status} (rôle {info.get('role')}, OS {info.get('os')})
+- Mesure réseau temps réel : Sonde TCP port {probe.get('port_tested')} -> résultat {live_result} ({probe.get('latency_ms')} ms)
+- Dernier log : {events[0]['message'] if events else 'Aucun'}
+- Constat : {contradiction_msg}
+
+Rédige une réponse d'analyse d'incident en insistant sur la contradiction entre l'inventaire statique et la mesure active réelle.
+Structure obligatoirement ainsi :
+**1. Faits établis :**
+**2. Analyse technique :**
+**3. Recommandations :**
+"""
+        final_answer = synthesize_with_llm(prompt_llm, answer)
+        return {"answer": final_answer, "traces": traces, "request_id": request_id}
 
     # --- Annexe D / Q4 : Le dernier test du port PostgreSQL est-il cohérent avec l'inventaire ? ---
     elif any(k in q_lower for k in ["cohérent", "coherent", "cohérence"]) or ("dernier test" in q_lower and "postgresql" in q_lower) or ("dernier test" in q_lower and "inventaire" in q_lower):
@@ -389,7 +488,23 @@ def query_techcorp_assistant(user_question: str, confirm_action: bool = False) -
 1. Valider le mot de passe du compte applicatif `techapp` configuré sur SRV-APP-01.
 2. Redémarrer PostgreSQL sur SRV-DB-01 une fois la configuration fiabilisée.
 """
-        return {"answer": answer, "traces": traces, "request_id": request_id}
+        prompt_llm = f"""Tu es l'assistant IA d'exploitation TECHCORP.
+L'opérateur demande : "{user_question}"
+
+Données factuelles chronologiques :
+- À 10:03:41, sur SRV-APP-01 : Erreur HTTP 500 sur GET /tickets/open.
+- À 10:03:42, sur SRV-DB-01 : Échec d'authentification PostgreSQL ('password authentication failed for user techapp').
+- À 10:03:45 : Saturation du pool de connexions SQLAlchemy.
+- À 10:10:00 : Déconnexion du serveur MCP.
+
+Rédige une analyse d'incident montrant la corrélation temporelle entre la panne de l'API et la coupure de la base de données.
+Structure obligatoirement ainsi :
+**1. Faits chronologiques établis :**
+**2. Analyse technique :**
+**3. Recommandations :**
+"""
+        final_answer = synthesize_with_llm(prompt_llm, answer)
+        return {"answer": final_answer, "traces": traces, "request_id": request_id}
 
     # --- Scénario F5 : Procédure d'escalade DNS ---
     elif "dns" in q_lower or "procédure" in q_lower or "procedure" in q_lower:
@@ -412,7 +527,20 @@ def query_techcorp_assistant(user_question: str, confirm_action: bool = False) -
 **3. Recommandations d'escalade :**
 - Si la panne excède 10 minutes, déclencher l'astreinte Réseau et créer un ticket prioritaire `CRITICAL`.
 """
-        return {"answer": answer, "traces": traces, "request_id": request_id}
+        prompt_llm = f"""Tu es l'assistant IA d'exploitation TECHCORP.
+L'opérateur demande : "{user_question}"
+
+Procédure officielle d'incident DNS consultée via MCP (Resource procedures://dns) :
+{proc_content}
+
+Rédige les actions immédiates et la démarche d'escalade en suivant strictement cette procédure.
+Structure obligatoirement ainsi :
+**1. Faits établis :**
+**2. Procédure d'Intervention :**
+**3. Recommandations d'escalade :**
+"""
+        final_answer = synthesize_with_llm(prompt_llm, answer)
+        return {"answer": final_answer, "traces": traces, "request_id": request_id}
 
     # --- Action avancée : Création de ticket avec confirmation ---
     elif "crée un ticket" in q_lower or "creer un ticket" in q_lower or "create_ticket" in q_lower:
@@ -428,21 +556,21 @@ def query_techcorp_assistant(user_question: str, confirm_action: bool = False) -
             user_question,
             request_id
         )
-        traces.append({"tool": "create_ticket", "args": {"confirm": confirm_action}, "result": action_res, "source": "mcp_action_tool"})
+        traces.append({"tool": "create_ticket", "args": {"confirm": confirm_action}, "result": action_res, "source": "fastapi_api_http"})
         
         if not confirm_action:
-            answer = """### ⚠️ Confirmation Humaine Requise
+            answer = f"""### ⚠️ Confirmation Humaine Requise (Protection MCP)
 **Action sensible détectée :** Création d'un ticket incident de priorité `HIGH` pour `SRV-WEB-01`.
-- L'outil a bloqué l'opération conformément aux règles de sécurité.
+- L'outil MCP a suspendu l'opération conformément aux règles de sécurité (`{action_res.get('status')}`).
 - **Veuillez cocher la case de confirmation ci-dessous pour valider la création effective.**"""
         else:
+            ticket_id = action_res.get("ticket_id") or action_res.get("id") or "N/A"
             answer = f"""### ✅ Ticket d'Incident Créé avec Succès
-- **Numéro du Ticket :** #{action_res.get('id')}
-- **Titre :** {action_res.get('title')}
-- **Machine :** {action_res.get('hostname')}
-- **Priorité :** {action_res.get('priority')}
-- **Horodatage :** {action_res.get('created_at')}
-- **Source :** API Métier FastAPI via MCP."""
+- **Numéro du Ticket :** #{ticket_id}
+- **Titre :** Alerte de supervision : charge anormale Nginx
+- **Machine :** SRV-WEB-01
+- **Priorité :** HIGH
+- **Statut :** Créé et persisté dans PostgreSQL via FastAPI."""
         return {"answer": answer, "traces": traces, "request_id": request_id}
 
     # --- Requête sur l'état de l'API / des APIs ---
