@@ -80,9 +80,19 @@ L'objectif de ce TP final est de concevoir, fiabiliser et enrichir une applicati
 ### Phase 1 : Initialisation & Dépôt Git
 - [x] **Tâche 1.1 :** Télécharger le code source de base fourni par l'enseignant (`https://gitlab.com/f.cardenas14/tp_python_clientserver_chat`).
 - [ ] **Tâche 1.2 :** Initialiser un nouveau dépôt Git public (GitHub ou GitLab).
-- [ ] **Tâche 1.3 :** Créer le fichier `.gitignore` adapté à Python (ignorer `__pycache__/`, `.vscode/`, `.idea/`, etc.).
-- [ ] **Tâche 1.4 :** Rédiger un fichier `README.md` introductif avec prérequis, commandes de lancement et attribution des rôles.
-- [ ] **Tâche 1.5 :** Répartir les rôles au sein de l'équipe (1 serveur/client + 2 clients).
+- [x] **Tâche 1.3 :** Créer le fichier `.gitignore` adapté à Python (ignorer `__pycache__/`, `.vscode/`, `.idea/`, etc.).
+- [x] **Tâche 1.4 :** Rédiger un fichier `README.md` introductif avec prérequis, commandes de lancement et attribution des rôles.
+- [x] **Tâche 1.5 :** Répartir les rôles au sein de l'équipe (1 serveur/client + 2 clients).
+
+#### 👥 Fiches de Rôles et Répartition des Responsabilités (Trinôme)
+
+Conformément à la consigne *(1 serveur-client + 2 clients)*, les rôles sont précisément distribués pour maximiser l'efficacité du groupe :
+
+| Rôle & Poste | Responsable | Périmètre Technique | Rôle pendant la Soutenance (15 min) |
+| :--- | :--- | :--- | :--- |
+| **Poste 1 : Architecte Serveur & Hôte Réseau**<br>*(Machine Serveur-Client)* | *Étudiant 1* | • Développement et maintenance de `server.py`<br>• Gestion de la boucle d'écoute TCP `accept()` et des threads clients<br>• Gestion de la liste des connectés et diffusion (`broadcast`)<br>• Interception des exceptions réseau (`ConnectionResetError`, `BrokenPipeError`) sans crash<br>• Implémentation des commandes d'administration (`/help`, `/list`, `/name`, `/quit`) | • Présente l'architecture globale TCP et les choix de conception (3 min)<br>• Démarre le serveur et commente les logs réseau en direct pendant la démo |
+| **Poste 2 : Lead Interface Graphique (Tkinter)**<br>*(Machine Client 1)* | *Étudiant 2* | • Conception de l'interface `client_gui.py` avec Tkinter<br>• Zone d'historique avec défilement automatique (`ScrolledText`)<br>• Thread-safety : écoute asynchrone sans figer la boucle `mainloop`<br>• Ergonomie : gestion des raccourcis claviers (touche `Entrée`) et styles visuels (couleurs par type de message) | • Explique la gestion du multithreading côté client (éviter le freeze d'UI)<br>• Réalise les échanges de messages en direct pendant la démo |
+| **Poste 3 : Intégrateur, Options Bonus (UDP) & QA**<br>*(Machine Client 2)* | *Étudiant 3* | • Balise répondeur UDP serveur & Scanner broadcast UDP client (`255.255.255.255:5001`)<br>• Intégration de la sélection de serveur en 1 clic (`ttk.Combobox`)<br>• Recette globale et tests de charge sur le réseau local réel CFA INSTA<br>• Réalisation du diaporama de présentation (`Support_Soutenance.pptx`) | • Présente le mécanisme d'auto-découverte UDP et la commande `/name`<br>• Démontre la résilience aux pannes (simulation de crash client)<br>• Anime la conclusion et le bilan |
 
 ### Phase 2 : Analyse, Compréhension & Commentaires
 - [ ] **Tâche 2.1 :** Analyser le cycle de vie du serveur (`socket()`, `bind()`, `listen()`, `accept()`).
