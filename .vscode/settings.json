@@ -1,3 +1,5 @@
 {
-  "cSpell.enabled": false
+  "cSpell.enabled": false,
+  "terminal.integrated.shellIntegration.environmentReporting": true,
+  "terminal.integrated.environmentChangesRelaunch": true
 }

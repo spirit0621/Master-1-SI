@@ -8,16 +8,17 @@
 ---
 
 ## 📑 Sommaire du Document
-- [Contexte d'exemple commun à tous les formats](#guide-comparatif-des-formats-de-diagrammes-darchitecture-si-diagrams-as-code)
+
+- [Contexte d&#39;exemple commun à tous les formats](#guide-comparatif-des-formats-de-diagrammes-darchitecture-si-diagrams-as-code)
 - [1. Mermaid.js (Markdown natif)](#1-mermaidjs)
-- [2. PlantUML (Standard d'entreprise)](#2-plantuml)
+- [2. PlantUML (Standard d&#39;entreprise)](#2-plantuml)
 - [3. C4 Model via C4-PlantUML (Zoom Niveaux 1 à 4)](#3-c4-model-via-c4-plantuml)
-- [4. D2 - Declarative Diagramming (Moderne & Nesting)](#4-d2-declarative-diagramming)
+- [4. D2 - Declarative Diagramming (Moderne &amp; Nesting)](#4-d2-declarative-diagramming)
 - [5. Graphviz - DOT Language (Graphes mathématiques)](#5-graphviz-dot-language)
 - [6. Diagrams Python (Cloud Infrastructure-as-Code)](#6-diagrams-python)
 - [7. DBML - Database Markup Language (Schémas BDD)](#7-dbml-database-markup-language)
-- [8. BPMN 2.0 XML (Processus Métier & Workflows)](#8-bpmn-20-business-process-model-and-notation---représentation-xml--séquence)
-- [9. ArchiMate 3.0 XML (Architecture d'Entreprise TOGAF)](#9-archimate-open-group-exchange-format)
+- [8. BPMN 2.0 XML (Processus Métier &amp; Workflows)](#8-bpmn-20-business-process-model-and-notation---représentation-xml--séquence)
+- [9. ArchiMate 3.0 XML (Architecture d&#39;Entreprise TOGAF)](#9-archimate-open-group-exchange-format)
 - [Tableau Récapitulatif de Synthèse](#tableau-récapitulatif-de-synthèse)
 
 ---
@@ -257,7 +258,7 @@ with Diagram("Connexion IA au SI d'Entreprise", show=False, direction="LR"):
 
     with Cluster("Système d'Information de l'Entreprise"):
         gateway = Kong("API Gateway")
-    
+  
         with Cluster("Service IA"):
             orchestrator = Server("Orchestrateur RAG & Agents")
 
