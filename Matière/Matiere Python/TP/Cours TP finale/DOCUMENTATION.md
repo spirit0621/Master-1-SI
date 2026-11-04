@@ -1,9 +1,10 @@
 # Documentation du Projet - TP Final : Client / Serveur Chat
 
 > **Master 1 SI - CFA INSTA**  
-> **Matière :** Python  
+> **Matière :** Programmation Python  
 > **Enseignant :** M. F. Cárdenas (`f.cardenas@cfa-insta.fr`)  
-> **Modalités :** Groupe de 3 maximum (1 machine serveur-client + 2 machines clients)
+> **Modalités :** Groupe de 3 maximum (1 machine serveur-client + 2 machines clients)  
+> **Format d'évaluation :** Soutenance orale de 15 minutes avec diapositives + Démonstration en direct + Dépôt Git public
 
 ---
 
@@ -17,129 +18,122 @@
    - [Phase 3 : Améliorations & Robustesse (Console)](#phase-3--améliorations--robustesse-console)
    - [Phase 4 : Interface Graphique avec Tkinter](#phase-4--interface-graphique-avec-tkinter)
    - [Phase 5 : Options Bonus Avancées](#phase-5--options-bonus-avancées)
-   - [Phase 6 : Recette, Tests & Rendu](#phase-6--recette-tests--rendu)
+   - [Phase 6 : Recette, Tests & Diaporama](#phase-6--recette-tests--diaporama)
 4. [Spécifications du Protocole de Communication](#4-spécifications-du-protocole-de-communication)
 5. [Structure Recommandée des Fichiers](#5-structure-recommandée-des-fichiers)
-6. [Critères d'Évaluation & Préparation de la Soutenance](#6-critères-dévaluation--préparation-de-la-soutenance)
+6. [Organisation de la Soutenance Orale (15 minutes)](#6-organisation-de-la-soutenance-orale-15-minutes)
+   - [Découpage du temps (15 min chrono)](#découpage-du-temps-15-min-chrono)
+   - [Trame recommandée du Diaporama (Support visuel)](#trame-recommandée-du-diaporama-support-visuel)
+   - [Critères d'évaluation de M. Cárdenas](#critères-dévaluation-de-m-cárdenas)
 
 ---
 
 ## 1. Contexte et Objectifs du Projet
 
-L'objectif de ce TP final est de concevoir et réaliser une application complète de **messagerie instantanée (Chat) Client / Serveur** en Python.
+L'objectif de ce TP final est de concevoir, fiabiliser et enrichir une application complète de **messagerie instantanée (Chat) Client / Serveur** en Python au sein d'un environnement réseau local (LAN).
 
-Le système doit permettre à plusieurs utilisateurs de communiquer en temps réel au travers d'un réseau local (LAN).
+### 🎯 Principaux attendus :
+- **Comprendre le code et ajouter des commentaires :** Maîtriser le fonctionnement de chaque brique (sockets, threading, encodage) et documenter le code selon la norme PEP 257.
+- **Améliorer le code existant :** Gérer rigoureusement les erreurs (déconnexions inattendues, fermeture des sockets, exceptions réseau) et soigner l'ergonomie des messages/prompts.
+- **Conception d'une interface graphique interactive avec `tkinter` :** Remplacer ou compléter l'interface terminal par une application fenêtrée fluide et responsive.
+- **Options bonus :**
+  - **Découverte automatique des serveurs :** Rechercher automatiquement les serveurs actifs sur le réseau local via broadcast UDP et permettre à l'utilisateur de choisir son serveur dans une liste.
+  - **Identification du serveur :** Le serveur doit renvoyer son nom sur réception d'une commande dédiée et l'afficher dans l'interface client.
+- **Démarche d'ingénierie logicielle propre :** Versionnement continu sous Git (dépôt public), structure modulaire, code PEP 8.
+- **Présentation & Restitution :** Présenter le projet lors d'une soutenance orale de 15 minutes avec support de présentation (diapositives) et démonstration technique.
 
-### Principaux attendus :
-- Maîtrise des communications réseau bas niveau avec le module standard **`socket`** (TCP/IP).
-- Gestion de la concurrence et du multithreading avec le module **`threading`**.
-- Conception d'une interface graphique interactive avec **`tkinter`**.
-- Ajout de fonctionnalités avancées de découverte réseau automatique et de commandes serveur.
-- Démarche de développement propre : versionnement Git, code documenté, gestion stricte des erreurs.
+### 📦 Rendu final :
+* **Démonstration et présentation orale (15 minutes)** devant la classe et l'enseignant.
+* **Envoi de l'URL du dépôt Git public** par email à : `f.cardenas@cfa-insta.fr`.
 
 ---
 
 ## 2. Architecture Technique Prévue
 
-```
-                  ┌───────────────────────────────┐
-                  │        SERVEUR CHAT           │
-                  │   - Écoute TCP (Port 5000)    │
-                  │   - Diffusion (Broadcast)     │
-                  │   - Répondeur UDP (Port 5001) │
-                  └───────────────┬───────────────┘
-                                  │
-         ┌────────────────────────┼────────────────────────┐
-         │ (Connexion TCP)        │ (Connexion TCP)        │ (Connexion TCP)
-         ▼                        ▼                        ▼
-┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
-│  Client 1 (GUI) │      │  Client 2 (GUI) │      │  Client 3 (GUI) │
-│  Machine Hôte   │      │ Machine Distante│      │ Machine Distante│
-└─────────────────┘      └─────────────────┘      └─────────────────┘
+```text
+                  ┌───────────────────────────────────────────────┐
+                  │                 SERVEUR CHAT                  │
+                  │   - Écoute TCP (Port 5000, multi-clients)     │
+                  │   - Diffusion des messages (Broadcast)        │
+                  │   - Balise répondeur UDP (Port 5001 - Option) │
+                  └───────────────────────┬───────────────────────┘
+                                          │
+                 ┌────────────────────────┼────────────────────────┐
+                 │ (Connexion TCP)        │ (Connexion TCP)        │ (Connexion TCP)
+                 ▼                        ▼                        ▼
+      ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐
+      │    Client 1 (GUI)   │  │    Client 2 (GUI)   │  │    Client 3 (GUI)   │
+      │ Machine Serveur/Hôte│  │   Poste Étudiant 2  │  │   Poste Étudiant 3  │
+      └─────────────────────┘  └─────────────────────┘  └─────────────────────┘
 ```
 
-- **Protocole de transport :** **TCP** (`SOCK_STREAM`) pour garantir la fiabilité de la transmission des messages sans perte de paquets.
-- **Protocole de découverte (Bonus) :** **UDP** (`SOCK_DGRAM`) en mode diffusion (`SO_BROADCAST`) pour localiser automatiquement les serveurs actifs sur le sous-réseau sans avoir à saisir l'adresse IP manuellement.
-- **Gestion multithreadée :**
-  - **Côté Serveur :** Un thread dédié par client connecté pour écouter ses messages sans bloquer les autres utilisateurs.
-  - **Côté Client :** Un thread d'écoute réseau en arrière-plan pour recevoir les messages en continu sans figer l'interface graphique Tkinter (qui tourne sur la boucle `mainloop`).
+- **Couche Réseau Principal (TCP - `socket.SOCK_STREAM`) :** Connexion orientée connexion, fiable, ordonnée et sans perte pour l'échange des messages textuels.
+- **Couche Découverte Réseau (UDP - `socket.SOCK_DGRAM`) :** Mode diffusion (`SO_BROADCAST`) sur `255.255.255.255` pour localiser dynamiquement les instances de serveur sans configuration manuelle d'IP.
+- **Modèle de Concurrence (`threading`) :**
+  - **Serveur :** 1 thread par client connecté pour la réception des flux entrants + 1 thread d'écoute broadcast UDP.
+  - **Client :** 1 thread d'écoute réseau en continu + thread principal dédié à la boucle événementielle graphique Tkinter (`mainloop`).
 
 ---
 
 ## 3. Feuille de Route & Liste des Tâches (Backlog)
 
 ### Phase 1 : Initialisation & Dépôt Git
-- [ ] **Tâche 1.1 :** Récupérer le code source de base fourni par l'enseignant : `https://gitlab.com/f.cardenas14/tp_python_clientserver_chat`.
-- [ ] **Tâche 1.2 :** Initialiser un nouveau dépôt Git public (sur GitHub ou GitLab).
-- [ ] **Tâche 1.3 :** Mettre en place un fichier `.gitignore` adapté à Python (ignorer `__pycache__/`, `.vscode/`, `.idea/`, etc.).
-- [ ] **Tâche 1.4 :** Rédiger un fichier `README.md` introductif avec les prérequis et les instructions d'installation/lancement.
-- [ ] **Tâche 1.5 :** Répartir les rôles au sein du groupe (1 binôme/trinôme).
+- [x] **Tâche 1.1 :** Télécharger le code source de base fourni par l'enseignant (`https://gitlab.com/f.cardenas14/tp_python_clientserver_chat`).
+- [ ] **Tâche 1.2 :** Initialiser un nouveau dépôt Git public (GitHub ou GitLab).
+- [ ] **Tâche 1.3 :** Créer le fichier `.gitignore` adapté à Python (ignorer `__pycache__/`, `.vscode/`, `.idea/`, etc.).
+- [ ] **Tâche 1.4 :** Rédiger un fichier `README.md` introductif avec prérequis, commandes de lancement et attribution des rôles.
+- [ ] **Tâche 1.5 :** Répartir les rôles au sein de l'équipe (1 serveur/client + 2 clients).
 
 ### Phase 2 : Analyse, Compréhension & Commentaires
-- [ ] **Tâche 2.1 :** Analyser le fonctionnement des sockets côté serveur (`socket()`, `bind()`, `listen()`, `accept()`).
-- [ ] **Tâche 2.2 :** Analyser le fonctionnement des sockets côté client (`socket()`, `connect()`, `send()`, `recv()`).
-- [ ] **Tâche 2.3 :** Documenter chaque fonction et classe selon les standards Python (docstrings PEP 257).
-- [ ] **Tâche 2.4 :** Ajouter des commentaires précis sur les passages critiques (encodage/décodage UTF-8, synchronisation des threads).
+- [ ] **Tâche 2.1 :** Analyser le cycle de vie du serveur (`socket()`, `bind()`, `listen()`, `accept()`).
+- [ ] **Tâche 2.2 :** Analyser le cycle de vie du client (`socket()`, `connect()`, `send()`, `recv()`).
+- [ ] **Tâche 2.3 :** Rédiger des docstrings claires (norme PEP 257) pour chaque fonction et classe.
+- [ ] **Tâche 2.4 :** Ajouter des commentaires explicatifs détaillés sur les points critiques (encodage UTF-8, synchronisation des threads).
 
 ### Phase 3 : Améliorations & Robustesse (Console)
-- [ ] **Tâche 3.1 :** Gérer les déconnexions brutales des clients sans faire crasher le serveur (`ConnectionResetError`, `BrokenPipeError`).
-- [ ] **Tâche 3.2 :** Nettoyer la liste des clients actifs lors d'un départ et fermer proprement les sockets (`client.close()`).
-- [ ] **Tâche 3.3 :** Informer tous les membres du chat lorsqu'un utilisateur rejoint ou quitte la salle (`*** Alice a rejoint le salon ***`).
-- [ ] **Tâche 3.4 :** Améliorer les messages de saisie (prompt) et ajouter un horodatage `[HH:MM:SS]` sur chaque message.
-- [ ] **Tâche 3.5 :** Implémenter des commandes d'administration :
-  - `/help` : Affiche la liste des commandes disponibles.
-  - `/list` : Affiche la liste des utilisateurs actuellement connectés.
-  - `/quit` : Déconnecte proprement le client.
+- [ ] **Tâche 3.1 :** Intercepter les déconnexions brutales côté serveur sans crash (`ConnectionResetError`, `BrokenPipeError`).
+- [ ] **Tâche 3.2 :** Nettoyer dynamiquement la liste des clients actifs lors d'un départ et fermer proprement les sockets.
+- [ ] **Tâche 3.3 :** Diffuser un message système global lorsqu'un utilisateur rejoint ou quitte la salle (`*** [Pseudo] a rejoint le salon ***`).
+- [ ] **Tâche 3.4 :** Améliorer la mise en forme des messages avec horodatage automatique (`[HH:MM:SS] [Pseudo] : message`).
+- [ ] **Tâche 3.5 :** Implémenter les commandes d'administration :
+  - `/help` : Affiche l'aide et les commandes utilisables.
+  - `/list` : Liste les pseudos actuellement connectés.
+  - `/name` : Renvoie le nom officiel du serveur.
+  - `/quit` : Déconnexion propre de la session.
 
 ### Phase 4 : Interface Graphique avec Tkinter
-- [ ] **Tâche 4.1 :** Concevoir une fenêtre de dialogue initiale (ou un panneau supérieur) pour configurer :
-  - L'adresse IP du serveur.
-  - Le port d'écoute.
-  - Le pseudo de l'utilisateur.
-- [ ] **Tâche 4.2 :** Concevoir la zone centrale de discussion :
-  - Zone de texte avec défilement automatique (`scrolledtext.ScrolledText`).
-  - Zone lecture seule pour empêcher la modification manuelle de l'historique par l'utilisateur.
-  - Couleurs et balises textuelles (ex: messages système en gris/italique, pseudos en gras, alertes en rouge).
-- [ ] **Tâche 4.3 :** Concevoir la zone inférieure de saisie :
-  - Champ de texte (`Entry`).
-  - Bouton « Envoyer ».
-  - Liaison de la touche `Entrée` (`<Return>`) pour envoyer le message directement.
-- [ ] **Tâche 4.4 :** Intégrer la communication multithread :
-  - Thread d'écoute qui met à jour l'interface via des appels sécurisés.
-  - Gestion propre de la fermeture de la fenêtre Tkinter (`WM_DELETE_WINDOW`) pour avertir le serveur et couper la connexion réseau sans thread zombie.
+- [ ] **Tâche 4.1 :** Créer le panneau supérieur de connexion (IP, Port, Pseudo, Statut connecté/déconnecté).
+- [ ] **Tâche 4.2 :** Développer la zone centrale de chat (`scrolledtext.ScrolledText`) en lecture seule avec scroll automatique.
+- [ ] **Tâche 4.3 :** Mettre en place un système de styles visuels (couleurs différentes pour les messages reçus, envoyés et système).
+- [ ] **Tâche 4.4 :** Concevoir la zone inférieure de saisie avec champ texte (`Entry`), bouton « Envoyer » et écoute de la touche `Entrée`.
+- [ ] **Tâche 4.5 :** Sécuriser la communication entre le thread réseau et Tkinter (éviter les freezes et fermer les threads à la fermeture de la fenêtre `WM_DELETE_WINDOW`).
 
 ### Phase 5 : Options Bonus Avancées
-- [ ] **Tâche 5.1 (Option Nom de Serveur) :**
-  - Configurer un nom d'instance personnalisable sur le serveur (ex: `"Serveur Salle TP 204"`).
-  - Créer la commande `/name` côté client pour interroger le serveur et afficher son nom.
-- [ ] **Tâche 5.2 (Option Découverte Réseau Automatique) :**
-  - **Côté Serveur :** Lancer un thread d'écoute UDP (ex: port 5001) qui attend les messages de broadcast `"DISCOVER_CHAT_SERVER"` et répond immédiatement avec son nom, son adresse IP et son port TCP.
-  - **Côté Client :** Ajouter un bouton « Rechercher les serveurs » dans la fenêtre de connexion Tkinter qui émet un paquet UDP broadcast, écoute les réponses reçues pendant 1 à 2 secondes, et remplit une liste déroulante (`ttk.Combobox`) avec les serveurs trouvés.
-- [ ] **Tâche 5.3 :** Connexion en un clic via la sélection d'un serveur dans la liste.
+- [ ] **Tâche 5.1 (Nom du Serveur) :** Permettre de nommer le serveur lors de son démarrage et renvoyer ce nom via la commande `/name`.
+- [ ] **Tâche 5.2 (Balise UDP Serveur) :** Lancer un thread UDP sur le port 5001 répondant aux pings broadcast par `CHAT_SERVER_HERE:<NOM_SERVEUR>:<PORT_TCP>`.
+- [ ] **Tâche 5.3 (Scanner UDP Client) :** Ajouter un bouton « Scanner le réseau » sur l'interface Tkinter qui liste les serveurs trouvés dans un menu déroulant (`ttk.Combobox`).
+- [ ] **Tâche 5.4 (Connexion Directe) :** Remplir automatiquement les champs IP et Port lors de la sélection d'un serveur détecté.
 
-### Phase 6 : Recette, Tests & Rendu
-- [ ] **Tâche 6.1 :** Tester le fonctionnement en local (`127.0.0.1` avec plusieurs fenêtres clientes simultanées).
-- [ ] **Tâche 6.2 :** Tester le fonctionnement sur le réseau local réel entre plusieurs ordinateurs distincts (Wi-Fi ou Ethernet CFA-INSTA).
-- [ ] **Tâche 6.3 :** Vérifier l'absence d'erreurs dans la console lors des cas limites (serveur coupé en premier, client fermé sans `/quit`, message vide).
-- [ ] **Tâche 6.4 :** Vérifier que le dépôt Git est bien **public** et contient l'intégralité du code et de la documentation.
-- [ ] **Tâche 6.5 :** Préparer le support de présentation orale (diaporama court, répartition de la parole, scénario de démo en direct).
-- [ ] **Tâche 6.6 :** Envoyer l'URL du dépôt par email à `f.cardenas@cfa-insta.fr`.
+### Phase 6 : Recette, Tests & Diaporama
+- [ ] **Tâche 6.1 :** Tester le bon fonctionnement en boucle locale (`127.0.0.1` avec plusieurs clients).
+- [ ] **Tâche 6.2 :** Valider le fonctionnement en réseau local réel avec 3 ordinateurs distincts (Wi-Fi/Ethernet CFA INSTA).
+- [ ] **Tâche 6.3 :** Concevoir le support de présentation (diaporama `Support_Soutenance.pptx`).
+- [ ] **Tâche 6.4 :** Répéter la présentation orale chronométrée (15 minutes).
+- [ ] **Tâche 6.5 :** Vérifier que le dépôt Git est bien public et envoyer l'URL par mail à `f.cardenas@cfa-insta.fr`.
 
 ---
 
 ## 4. Spécifications du Protocole de Communication
 
-Afin d'assurer la cohérence des échanges entre le client et le serveur :
-
-| Type de Message | Format Brut / Payload | Description |
+| Type de Message | Format Brut / Trame | Rôle & Traitement |
 | :--- | :--- | :--- |
-| **Identification** | `NICK:<pseudo>` | Premier message envoyé par le client après la connexion TCP. |
-| **Message standard** | `MSG:<texte>` ou texte direct | Message diffusé à l'ensemble du salon sous le format `[HH:MM] [Pseudo] : texte`. |
-| **Commande Nom** | `/name` | Requête client pour obtenir le nom d'affichage du serveur. |
-| **Commande Liste** | `/list` | Requête client pour recevoir la liste des utilisateurs en ligne. |
-| **Déconnexion** | `/quit` | Signal de sortie propre envoyé par le client avant fermeture du socket. |
-| **Broadcast Découverte (UDP)** | `DISCOVER_CHAT_SERVER` | Message UDP broadcast émis par le client sur `255.255.255.255`. |
-| **Réponse Découverte (UDP)** | `SERVER_INFO:<Nom>:<Port>` | Réponse envoyée par le serveur au client demandeur. |
+| **Enregistrement Pseudo** | `NICK:<pseudo>` | Envoyé à la connexion pour identifier l'utilisateur. |
+| **Message Standard** | `MSG:<texte>` *(ou texte direct)* | Diffusé à l'ensemble des clients connectés sous forme formatée. |
+| **Commande Nom** | `/name` | Le serveur répond avec son nom d'instance officiel. |
+| **Commande Utilisateurs** | `/list` | Le serveur renvoie la liste des utilisateurs connectés. |
+| **Déconnexion Propre** | `/quit` | Informe le serveur pour fermeture de session sans erreur. |
+| **Découverte (UDP)** | `DISCOVER_CHAT_SERVER` | Broadcast émis par le client sur `255.255.255.255:5001`. |
+| **Réponse Découverte (UDP)** | `CHAT_SERVER_HERE:<Nom>:<Port>` | Réponse envoyée par le serveur pour se déclarer disponible. |
 
 ---
 
@@ -148,37 +142,52 @@ Afin d'assurer la cohérence des échanges entre le client et le serveur :
 ```text
 Cours TP finale/
 │
-├── DOCUMENTATION.md                # Le présent document de référence et suivi
-├── README.md                       # Guide d'installation et d'utilisation pour le correcteur
-├── .gitignore                      # Fichiers et dossiers à exclure de Git
+├── DOCUMENTATION.md                # Référence complète du projet et suivi des tâches
+├── README.md                       # Guide d'installation, lancement et documentation Git
+├── .gitignore                      # Exclusion des fichiers temporaires Python/IDE
 │
-├── server.py                       # Serveur TCP multithreadé + Répondeur UDP
-├── client_gui.py                   # Client graphique principal (Tkinter)
-├── client_cli.py                   # (Optionnel) Client console en mode texte
+├── server.py                       # Serveur TCP multithreadé + Répondeur UDP (Option)
+├── client_gui.py                   # Client graphique complet Tkinter + Scanner UDP (Option)
+├── client_cli.py                   # (Optionnel) Client console en mode terminal
 │
 └── presentation/
-    └── Support_Soutenance.pptx     # Support pour la présentation orale du groupe
+    └── Support_Soutenance.pptx     # Diaporama pour la soutenance orale de 15 minutes
 ```
 
 ---
 
-## 6. Critères d'Évaluation & Préparation de la Soutenance
+## 6. Organisation de la Soutenance Orale (15 minutes)
 
-### Critères techniques (Code & Git) :
-1. **Dépôt Git :** Historique des commits régulier, messages de commit explicites, contributions visibles des membres du groupe.
-2. **Commentaires & Clarté :** Qualité pédagogique des commentaires, respect de la PEP 8.
-3. **Robustesse :** Absence de blocage d'interface (UI freeze) et gestion sans crash des erreurs réseau.
-4. **Interface Tkinter :** Ergonomie, clarté visuelle, gestion du scroll et des touches claviers.
-5. **Options :** Bon fonctionnement du scan automatique et des commandes.
+### ⏱️ Découpage du temps (15 min chrono)
 
-### Déroulé recommandé de la démonstration orale :
-- **Introduction (2 min) :** Présentation du groupe, des choix d'architecture et du protocole choisi.
-- **Démonstration en direct (5 min) :**
-  - Lancement du serveur sur une machine.
-  - Lancement de 2 clients sur d'autres postes.
-  - Découverte automatique des serveurs via l'option broadcast.
-  - Échange de messages en temps réel.
-  - Démonstration de la gestion d'erreur (ex: coupure brutale d'un client et reconnexion).
-- **Revue de code (3 min) :** Explication des parties clés (threads, boucle d'écoute, synchronisation Tkinter).
-- **Questions / Réponses (3-5 min) :** Réponses aux questions de l'enseignant.
+| Durée | Phase | Contenu & Objectifs |
+| :---: | :--- | :--- |
+| **00:00 - 03:00** *(3 min)* | **Introduction & Architecture** | Présentation des membres du groupe, du contexte, du schéma d'architecture (TCP/UDP) et du protocole d'échange. |
+| **03:00 - 08:00** *(5 min)* | **Démonstration en Direct** | • Lancement du serveur sur la machine hôte.<br>• Découverte automatique des serveurs via l'option broadcast.<br>• Connexion simultanée des 2 clients.<br>• Échanges de messages en temps réel.<br>• Test de robustesse : coupure brutale d'un client sans plantage du serveur. |
+| **08:00 - 11:00** *(3 min)* | **Revue de Code & Défis** | Présentation des points techniques clés : gestion des threads, interdiction du blocage de l'UI Tkinter, gestion des exceptions réseau. |
+| **11:00 - 15:00** *(4 min)* | **Questions / Réponses** | Réponses aux questions techniques posées par M. Cárdenas. |
 
+---
+
+### 🖥️ Trame recommandée du Diaporama (Support visuel)
+
+Un diaporama concis de **6 à 8 diapositives** est idéal pour tenir le timing :
+
+1. **Diapositive 1 - Titre :** Intitulé du projet, filière Master 1 SI, noms et prénoms des membres du groupe, date.
+2. **Diapositive 2 - Cahier des charges & Objectifs :** Synthèse des besoins (Chat multithreadé, interface Tkinter, options bonus).
+3. **Diapositive 3 - Architecture Réseau :** Schéma illustrant la communication TCP (chat) et UDP (découverte automatique).
+4. **Diapositive 4 - Conception Logicielle & Threading :** Rôle des threads côté serveur (un thread par socket) et côté client (thread réseau + boucle `mainloop` Tkinter).
+5. **Diapositive 5 - Gestion des Erreurs & Sécurité Réseau :** Exemples d'exceptions gérées (`ConnectionResetError`, `BrokenPipeError`) et déconnexion propre.
+6. **Diapositive 6 - Interface Graphique Tkinter :** Aperçu des fonctionnalités ergonomiques (choix du serveur, chat avec styles, scroll automatique).
+7. **Diapositive 7 - Démonstration :** Transition vers la démonstration en direct (scénario du test).
+8. **Diapositive 8 - Conclusion & Bilan :** Retour d'expérience, difficultés rencontrées, pistes d'évolution, lien vers le dépôt Git public.
+
+---
+
+### 🎯 Critères d'évaluation de M. Cárdenas
+
+1. **Qualité et clarté du code :** Clarté de la structure, rigueur des commentaires explicatifs, respect de la PEP 8.
+2. **Robustesse applicative :** Résistance aux pannes réseau, absence de freeze de l'interface graphique.
+3. **Ergonomie de l'interface Tkinter :** Facilité d'utilisation, clarté visuelle.
+4. **Réussite des options bonus :** Fonctionnement effectif du scan UDP et de la commande `/name`.
+5. **Prestation orale :** Clarté des explications, dynamisme de la démo, maîtrise des concepts réseau et respect des 15 minutes.
