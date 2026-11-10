@@ -27,3 +27,8 @@ Ce dossier contient les fiches d'explication complètes et pédagogiques pour ch
    - Connexion TCP active (`connect`).
    - Concurrence multithreadée : saisie clavier synchrone (`input`) et réception réseau asynchrone (`recv`).
 
+4. **[LISTE_VARIABLES_ET_FONCTIONS.md](file:///c:/Users/alves/Desktop/Lyc%C3%A9e,%20bts%20,%20formation,%20master/CFA-insta/Master%20SI/Master%201%20SI/Mati%C3%A8re/Matiere%20Python/TP/Cours%205%20TP%20finale/Doc%20information%20code/Explication%20code/LISTE_VARIABLES_ET_FONCTIONS.md)**
+   - Dictionnaire complet de toutes les fonctions, méthodes et variables du projet.
+   - Tableaux par fichier avec types, portées et descriptions techniques.
+   - Schéma de cycle de vie des variables réseau et anti-sèche pour l'oral.
+
