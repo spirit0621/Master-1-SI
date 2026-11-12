@@ -1,0 +1,481 @@
+<mxfile host="app.diagrams.net" pages="3">
+  <diagram id="diag_arch" name="1. Architecture Applicative">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1200" pageHeight="760" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="a_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=19;fontStyle=1;fontColor=#0f172a;" value="Architecture Applicative — Plateforme GreenBreiZH" vertex="1">
+          <mxGeometry height="36" width="900" x="20" y="14" as="geometry" />
+        </mxCell>
+        <mxCell id="grp_ext" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;strokeWidth=1.5;dashed=1;verticalAlign=top;align=center;fontSize=12;fontStyle=1;fontColor=#334155;arcSize=6;zGroup=1;" value="Systèmes Externes &amp; Terrain" vertex="1">
+          <mxGeometry height="610" width="235" x="-110" y="62" as="geometry" />
+        </mxCell>
+        <mxCell id="grp_front" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#047857;strokeWidth=1.5;dashed=1;verticalAlign=top;align=center;fontSize=12;fontStyle=1;fontColor=#065f46;arcSize=6;zGroup=1;" value="Couche Présentation (Frontend)" vertex="1">
+          <mxGeometry height="118" width="895" x="295" y="62" as="geometry" />
+        </mxCell>
+        <mxCell id="grp_gw" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#1d4ed8;strokeWidth=1.5;dashed=1;verticalAlign=top;align=center;fontSize=12;fontStyle=1;fontColor=#1e40af;arcSize=6;zGroup=1;" value="Couche Exposition &amp; Sécurité" vertex="1">
+          <mxGeometry height="96" width="895" x="295" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="grp_back" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#0f172a;strokeWidth=1.5;dashed=1;verticalAlign=top;align=center;fontSize=12;fontStyle=1;fontColor=#0f172a;arcSize=6;zGroup=1;" value="Couche Services Backend (Modules Applicatifs)" vertex="1">
+          <mxGeometry height="198" width="895" x="295" y="316" as="geometry" />
+        </mxCell>
+        <mxCell id="grp_data" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefce8;strokeColor=#b45309;strokeWidth=1.5;dashed=1;verticalAlign=top;align=center;fontSize=12;fontStyle=1;fontColor=#92400e;arcSize=6;zGroup=1;" value="Services de Gestion des Données &amp; Persistance" vertex="1">
+          <mxGeometry height="138" width="895" x="305" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="ext_iot" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#475569;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Capteurs IoT Bâtiments&lt;br&gt;(Élec, Gaz, Chauffage, Eau)" vertex="1">
+          <mxGeometry height="70" width="190" x="-88" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="ext_edge" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#475569;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Passerelles IoT / Edge&lt;br&gt;(Collecte &amp; Chiffrement TLS)" vertex="1">
+          <mxGeometry height="68" width="190" x="-88" y="214" as="geometry" />
+        </mxCell>
+        <mxCell id="ext_meteo" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#475569;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="APIs Météo &amp; Tarifs&lt;br&gt;Énergie (Enedis / RTE)" vertex="1">
+          <mxGeometry height="68" width="190" x="-88" y="338" as="geometry" />
+        </mxCell>
+        <mxCell id="ext_operat" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#475569;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Organismes Réglementaires&lt;br&gt;(Portail OPERAT / ISO 50001)" vertex="1">
+          <mxGeometry height="68" width="190" x="-88" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="ext_notif" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#475569;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Fournisseurs Notifications&lt;br&gt;(SMS / E-mail / Push)" vertex="1">
+          <mxGeometry height="68" width="190" x="-88" y="558" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_web" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#047857;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11.5;fontStyle=1;" value="Application Web (React / SPA)&lt;br&gt;Tableaux de bord, Rapports PDF,&lt;br&gt;Objectifs &amp;amp; Console Admin" vertex="1">
+          <mxGeometry height="68" width="360" x="330" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_mob" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#047857;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11.5;fontStyle=1;" value="Application Mobile (iOS / Android)&lt;br&gt;Suivi , Alertes temps réel &amp;amp;&lt;br&gt;Recommandations IA" vertex="1">
+          <mxGeometry height="68" width="360" x="755" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="api_gw" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1d4ed8;strokeWidth=2.2;fontColor=#0f172a;arcSize=10;fontSize=12;fontStyle=1;" value="API Gateway &amp; Sécurité (REST / WebSockets / IAM)&lt;br&gt;Routage des requêtes, Authentification JWT / OAuth2, Contrôle d&#39;accès RBAC &amp; Rate Limiting" vertex="1">
+          <mxGeometry height="52" width="785" x="330" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="mod_rt" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Module Suivi Temps Réel&lt;br&gt;Streaming mesures &amp; seuils" vertex="1">
+          <mxGeometry height="62" width="232" x="320" y="354" as="geometry" />
+        </mxCell>
+        <mxCell id="mod_ia" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Module Recommandations IA&lt;br&gt;Détection anomalies &amp; gains" vertex="1">
+          <mxGeometry height="62" width="232" x="594" y="354" as="geometry" />
+        </mxCell>
+        <mxCell id="mod_comp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Module Rapports Conformité&lt;br&gt;Calcul kWh/m², CO2 &amp; PDF" vertex="1">
+          <mxGeometry height="62" width="232" x="868" y="354" as="geometry" />
+        </mxCell>
+        <mxCell id="mod_alert" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Module Gestion des Alertes&lt;br&gt;Règles de seuils &amp; dispatch" vertex="1">
+          <mxGeometry height="62" width="232" x="320" y="434" as="geometry" />
+        </mxCell>
+        <mxCell id="mod_goal" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Module Objectifs Durabilité&lt;br&gt;Trajectoires kWh &amp; CO2" vertex="1">
+          <mxGeometry height="62" width="232" x="594" y="434" as="geometry" />
+        </mxCell>
+        <mxCell id="mod_adm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=11;fontStyle=1;" value="Module d&#39;Administration&lt;br&gt;Capteurs, sites &amp; droits RBAC" vertex="1">
+          <mxGeometry height="62" width="232" x="868" y="434" as="geometry" />
+        </mxCell>
+        <mxCell id="dt_broker" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b45309;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=10.5;fontStyle=1;" value="Broker IoT / Events&lt;br&gt;(MQTT / Kafka)" vertex="1">
+          <mxGeometry height="78" width="152" x="325" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="dt_etl" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b45309;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=10.5;fontStyle=1;" value="Service ETL &amp;&lt;br&gt;Agrégation Données" vertex="1">
+          <mxGeometry height="78" width="152" x="493" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="dt_tsdb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b45309;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=10.5;fontStyle=1;" value="Base Séries Temp.&lt;br&gt;(TimescaleDB)&lt;br&gt;Mesures IoT" vertex="1">
+          <mxGeometry height="78" width="152" x="661" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="dt_pg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b45309;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=10.5;fontStyle=1;" value="Base Relationnelle&lt;br&gt;(PostgreSQL)&lt;br&gt;Sites, Users, Seuils" vertex="1">
+          <mxGeometry height="78" width="152" x="829" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="dt_s3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b45309;strokeWidth=2;fontColor=#0f172a;arcSize=12;fontSize=10.5;fontStyle=1;" value="Stockage Objets&lt;br&gt;(S3 / Blob)&lt;br&gt;Rapports PDF" vertex="1">
+          <mxGeometry height="78" width="145" x="997" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="ae1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;" value="Mesures">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="7" y="178" as="sourcePoint" />
+            <mxPoint x="7" y="214" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae2" edge="1" parent="1" source="ext_edge" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="dt_broker" value="MQTT / TLS">
+          <mxGeometry relative="1" x="0.037" y="-20" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="270" y="248" />
+              <mxPoint x="270" y="700" />
+            </Array>
+            <mxPoint x="232" y="248" as="sourcePoint" />
+            <mxPoint x="315" y="613" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae3" edge="1" parent="1" source="ext_meteo" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#475569;strokeWidth=1.6;dashed=1;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;" value="JSON / REST">
+          <mxGeometry relative="1" x="0.1603" as="geometry">
+            <Array as="points">
+              <mxPoint x="248" y="372" />
+              <mxPoint x="248" y="630" />
+              <mxPoint x="559" y="630" />
+            </Array>
+            <mxPoint x="232" y="372" as="sourcePoint" />
+            <mxPoint x="559" y="652" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae4" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#475569;strokeWidth=1.6;dashed=1;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="ext_operat" value="Export OPERAT">
+          <mxGeometry relative="1" x="-0.0662" as="geometry">
+            <Array as="points">
+              <mxPoint x="848" y="385" />
+              <mxPoint x="848" y="522" />
+              <mxPoint x="190" y="522" />
+              <mxPoint x="190" y="504" />
+            </Array>
+            <mxPoint x="868" y="385" as="sourcePoint" />
+            <mxPoint x="232" y="468" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;" target="grp_ext" value="Envoi alertes">
+          <mxGeometry relative="1" x="-0.3602" y="-22" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="292" y="465" />
+              <mxPoint x="292" y="592" />
+            </Array>
+            <mxPoint x="320" y="465" as="sourcePoint" />
+            <mxPoint x="232" y="592" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae6" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1d4ed8;strokeWidth=1.8;endArrow=block;endFill=1;startArrow=block;startFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;" value="HTTPS / WSS">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="166" as="sourcePoint" />
+            <mxPoint x="510" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae7" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1d4ed8;strokeWidth=1.8;endArrow=block;endFill=1;startArrow=block;startFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;" value="HTTPS / WSS">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="935" y="166" as="sourcePoint" />
+            <mxPoint x="935" y="232" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae8" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="436" y="284" as="sourcePoint" />
+            <mxPoint x="436" y="354" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae9" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="284" as="sourcePoint" />
+            <mxPoint x="710" y="354" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae10" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="984" y="284" as="sourcePoint" />
+            <mxPoint x="984" y="354" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae11" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="573" y="465" />
+            </Array>
+            <mxPoint x="573" y="284" as="sourcePoint" />
+            <mxPoint x="552" y="465" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae12" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="847" y="465" />
+            </Array>
+            <mxPoint x="847" y="284" as="sourcePoint" />
+            <mxPoint x="826" y="465" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae13" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1115" y="465" />
+            </Array>
+            <mxPoint x="1115" y="284" as="sourcePoint" />
+            <mxPoint x="1100" y="465" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae14" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="477" y="689" as="sourcePoint" />
+            <mxPoint x="493" y="689" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae15" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="645" y="689" as="sourcePoint" />
+            <mxPoint x="661" y="689" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae16" edge="1" parent="1" source="dt_broker" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;exitX=0.434;exitY=-0.017;exitDx=0;exitDy=0;exitPerimeter=0;" value="Flux">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="391" y="574" as="sourcePoint" />
+            <mxPoint x="391" y="496" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae17" edge="1" parent="1" source="dt_tsdb" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;" value="Lectures">
+          <mxGeometry relative="1" x="0.5691" as="geometry">
+            <mxPoint x="710" y="574" as="sourcePoint" />
+            <mxPoint x="710" y="496" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae18" edge="1" parent="1" source="dt_pg" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;" value="Métadonnées">
+          <mxGeometry relative="1" x="0.5244" as="geometry">
+            <mxPoint x="895" y="574" as="sourcePoint" />
+            <mxPoint x="895" y="496" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae19" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=9.5;fontStyle=1;" target="dt_s3" value="Archivage PDF">
+          <mxGeometry relative="1" x="-0.2011" as="geometry">
+            <Array as="points">
+              <mxPoint x="1134" y="385" />
+              <mxPoint x="1134" y="550" />
+              <mxPoint x="1060" y="550" />
+            </Array>
+            <mxPoint x="1100" y="385" as="sourcePoint" />
+            <mxPoint x="1060" y="574" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_seq" name="2. Séquence Temps Réel &amp; Alerte">
+    <mxGraphModel dx="1160" dy="730" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="730" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="s_title" value="Diagramme de Séquence — Suivi Temps Réel &amp; Alerte de Dépassement" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=19;fontStyle=1;fontColor=#0f172a;" parent="1" vertex="1">
+          <mxGeometry x="20" y="14" width="980" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_p_user" style="html=1;strokeColor=#64748b;strokeWidth=1.5;dashed=1;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="75" y="114" as="sourcePoint" />
+            <mxPoint x="75" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_p_front" style="html=1;strokeColor=#64748b;strokeWidth=1.5;dashed=1;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="114" as="sourcePoint" />
+            <mxPoint x="250" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_p_gw" style="html=1;strokeColor=#64748b;strokeWidth=1.5;dashed=1;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="435" y="114" as="sourcePoint" />
+            <mxPoint x="435" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_p_rt" style="html=1;strokeColor=#64748b;strokeWidth=1.5;dashed=1;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="114" as="sourcePoint" />
+            <mxPoint x="625" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_p_db" style="html=1;strokeColor=#64748b;strokeWidth=1.5;dashed=1;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="114" as="sourcePoint" />
+            <mxPoint x="820" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_p_al" style="html=1;strokeColor=#64748b;strokeWidth=1.5;dashed=1;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1015" y="114" as="sourcePoint" />
+            <mxPoint x="1015" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="alt_box" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fffbeb;strokeColor=#b45309;strokeWidth=1.8;dashed=1;zGroup=1;" parent="1" vertex="1">
+          <mxGeometry x="55" y="456" width="1045" height="168" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_tag" value="alt  [Consommation &gt; Seuil d&#39;alerte configuré]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#b45309;strokeWidth=1.5;fontColor=#92400e;fontSize=10.5;fontStyle=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="55" y="456" width="295" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="p_user_top" value="Utilisateur&lt;br&gt;Client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="7.0" y="66" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_user_bot" value="Utilisateur&lt;br&gt;Client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="7.0" y="650" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_front_top" value="Frontend&lt;br&gt;Web / Mobile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="182.0" y="66" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_front_bot" value="Frontend&lt;br&gt;Web / Mobile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="182.0" y="650" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_gw_top" value="API Gateway&lt;br&gt;&amp; Auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="367.0" y="66" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_gw_bot" value="API Gateway&lt;br&gt;&amp; Auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="367.0" y="650" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_rt_top" value="Service Suivi&lt;br&gt;Temps Réel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="557.0" y="66" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_rt_bot" value="Service Suivi&lt;br&gt;Temps Réel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="557.0" y="650" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_db_top" value="Broker IoT &amp;&lt;br&gt;TimescaleDB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="752.0" y="66" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_db_bot" value="Broker IoT &amp;&lt;br&gt;TimescaleDB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="752.0" y="650" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_al_top" value="Service Gestion&lt;br&gt;des Alertes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="947.0" y="66" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p_al_bot" value="Service Gestion&lt;br&gt;des Alertes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=12;" parent="1" vertex="1">
+          <mxGeometry x="947.0" y="650" width="136" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="1. Ouvre le tableau de bord" style="html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=10.5;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="75" y="146" as="sourcePoint" />
+            <mxPoint x="250" y="146" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="2. GET /consumption/realtime (JWT)" style="html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=10.5;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="186" as="sourcePoint" />
+            <mxPoint x="435" y="186" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="3. Vérifie JWT &amp; transmet requête" style="html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=10.5;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="435" y="226" as="sourcePoint" />
+            <mxPoint x="625" y="226" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="4. Requête dernières mesures" style="html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=10.5;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="266" as="sourcePoint" />
+            <mxPoint x="820" y="266" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="5. Séries temporelles (kWh)" style="html=1;strokeColor=#475569;strokeWidth=1.6;dashed=1;endArrow=open;labelBackgroundColor=#ffffff;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="304" as="sourcePoint" />
+            <mxPoint x="625" y="304" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="6. Flux temps réel (WebSocket)" style="html=1;strokeColor=#475569;strokeWidth=1.6;dashed=1;endArrow=open;labelBackgroundColor=#ffffff;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="342" as="sourcePoint" />
+            <mxPoint x="250" y="342" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="7. Affiche courbes instantanées" style="html=1;strokeColor=#475569;strokeWidth=1.6;dashed=1;endArrow=open;labelBackgroundColor=#ffffff;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="380" as="sourcePoint" />
+            <mxPoint x="75" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" value="8. Nouvelle mesure capteur IoT -&gt; push" style="html=1;strokeColor=#0f172a;strokeWidth=1.8;endArrow=block;endFill=1;labelBackgroundColor=#ffffff;fontSize=10.5;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="424" as="sourcePoint" />
+            <mxPoint x="625" y="424" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="9. Déclenche alerte dépassement" style="html=1;strokeColor=#b45309;strokeWidth=2;endArrow=block;endFill=1;labelBackgroundColor=#fffbeb;fontSize=10.5;fontStyle=1;fontColor=#92400e;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="625" y="512" as="sourcePoint" />
+            <mxPoint x="1015" y="512" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="10. Enregistre alerte &amp; dispatch Push/SMS" style="html=1;strokeColor=#b45309;strokeWidth=2;endArrow=block;endFill=1;labelBackgroundColor=#fffbeb;fontSize=10.5;fontStyle=1;fontColor=#92400e;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1015" y="554" as="sourcePoint" />
+            <mxPoint x="250" y="554" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="11. Notification d&#39;anomalie urgente" style="html=1;strokeColor=#b45309;strokeWidth=2;endArrow=block;endFill=1;labelBackgroundColor=#fffbeb;fontSize=10.5;fontStyle=1;fontColor=#92400e;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="596" as="sourcePoint" />
+            <mxPoint x="75" y="596" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="diag_uc" name="3. Cas d&#39;Utilisation">
+    <mxGraphModel dx="1130" dy="675" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1130" pageHeight="675" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="u_title" value="Diagramme de Cas d&#39;Utilisation — Application GreenBreiZH" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=19;fontStyle=1;fontColor=#0f172a;" parent="1" vertex="1">
+          <mxGeometry x="20" y="14" width="900" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="sys_box" value="Système GreenBreiZH (Plateforme de Gestion Énergétique)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#0f172a;strokeWidth=2;verticalAlign=top;align=center;fontSize=13;fontStyle=1;fontColor=#0f172a;arcSize=4;zGroup=1;" parent="1" vertex="1">
+          <mxGeometry x="245" y="68" width="630" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="uc1" value="UC1 : Suivre la consommation&lt;br&gt;énergétique en temps réel" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#047857;strokeWidth=2;fontColor=#0f172a;fontSize=11.5;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="385" y="118" width="350" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="uc2" value="UC2 : Configurer des seuils et&lt;br&gt;recevoir des alertes" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#047857;strokeWidth=2;fontColor=#0f172a;fontSize=11.5;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="385" y="206" width="350" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="uc3" value="UC3 : Consulter et appliquer les&lt;br&gt;recommandations d&#39;optimisation IA" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#047857;strokeWidth=2;fontColor=#0f172a;fontSize=11.5;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="385" y="294" width="350" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="uc4" value="UC4 : Définir et suivre les&lt;br&gt;objectifs de durabilité (CO2)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#047857;strokeWidth=2;fontColor=#0f172a;fontSize=11.5;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="385" y="382" width="350" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="uc5" value="UC5 : Générer, valider et exporter&lt;br&gt;les rapports de conformité PDF" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#047857;strokeWidth=2;fontColor=#0f172a;fontSize=11.5;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="385" y="470" width="350" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="uc6" value="UC6 : Administrer les capteurs&lt;br&gt;et les droits utilisateurs" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#047857;strokeWidth=2;fontColor=#0f172a;fontSize=11.5;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="385" y="554" width="350" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="act_client" value="Utilisateur&lt;br&gt;Client" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11.5;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="78" y="225" width="70" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="act_conf" value="Responsable&lt;br&gt;Conformité" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11.5;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="975" y="375" width="70" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="act_admin" value="Administrateur&lt;br&gt;Système" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;strokeColor=#0f172a;strokeWidth=2;fontColor=#0f172a;fontSize=11.5;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="975" y="540" width="70" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="act_iot" value="Système Externe :&lt;br&gt;Capteurs IoT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#475569;strokeWidth=2;fontColor=#0f172a;fontSize=11;fontStyle=1;arcSize=10;" parent="1" vertex="1">
+          <mxGeometry x="935" y="122" width="155" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ue1" style="html=1;strokeColor=#0f172a;strokeWidth=1.7;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="250" as="sourcePoint" />
+            <mxPoint x="385" y="152" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ue2" style="html=1;strokeColor=#0f172a;strokeWidth=1.7;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="265" as="sourcePoint" />
+            <mxPoint x="385" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ue3" style="html=1;strokeColor=#0f172a;strokeWidth=1.7;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="280" as="sourcePoint" />
+            <mxPoint x="385" y="328" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ue4" style="html=1;strokeColor=#0f172a;strokeWidth=1.7;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="295" as="sourcePoint" />
+            <mxPoint x="385" y="416" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ue5" style="html=1;strokeColor=#0f172a;strokeWidth=1.7;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="310" as="sourcePoint" />
+            <mxPoint x="385" y="504" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ue6" style="html=1;strokeColor=#0f172a;strokeWidth=1.7;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="935" y="152" as="sourcePoint" />
+            <mxPoint x="735" y="152" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ue7" style="html=1;strokeColor=#0f172a;strokeWidth=1.7;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="965" y="420" as="sourcePoint" />
+            <mxPoint x="735" y="504" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ue8" style="html=1;strokeColor=#0f172a;strokeWidth=1.7;endArrow=none;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="965" y="585" as="sourcePoint" />
+            <mxPoint x="735" y="585" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
